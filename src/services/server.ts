@@ -26,9 +26,12 @@ import {
   UpgradeServerParameters,
   UpgradeServerResponse,
 } from "../types/server.js";
+import { getAccessToken } from "./authentication.js";
+const baseURL = "https://api.cloudways.com/api/v1";
+// replace this with your actual access token
+const accessToken = getAccessToken();
 
-const baseURL = "https://api.cloudways.com/api/v1/server";
-
+axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 const server = {
   attachStorage: async (
     params: AttachStorageParameters

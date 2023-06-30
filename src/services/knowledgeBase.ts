@@ -4,8 +4,13 @@ import {
   SearchKnowledgeBaseParameters,
   SearchKnowledgeBaseResponse,
 } from "../types/knowledgeBase.js";
-const baseURL = "https://api.cloudways.com/api/v1";
+import { getAccessToken } from "./authentication.js";
 
+const baseURL = "https://api.cloudways.com/api/v1";
+// replace this with your actual access token
+const accessToken = getAccessToken();
+
+axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 const knowledgeBase = {
   // Existing functions...
 

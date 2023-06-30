@@ -14,7 +14,12 @@ import {
   StartGitPullParameters,
   StartGitPullResponse,
 } from "../types/git.js";
+import { getAccessToken } from "./authentication.js";
 const baseURL = "https://api.cloudways.com/api/v1";
+// replace this with your actual access token
+const accessToken = getAccessToken();
+
+axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
 const git = {
   generateGitSSH: async (

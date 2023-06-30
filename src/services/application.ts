@@ -15,8 +15,12 @@ import {
   UpdateAppLabelParameters,
   UpdateAppLabelResponse,
 } from "../types/application.js";
+import { getAccessToken } from "./authentication.js";
 const baseURL = "https://api.cloudways.com/api/v1";
+// replace this with your actual access token
+const accessToken = getAccessToken();
 
+axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 const application = {
   addApp: async (params: AddAppParameters): Promise<AddAppResponse> => {
     const response: AxiosResponse = await axios.post(`${baseURL}/app`, params);
