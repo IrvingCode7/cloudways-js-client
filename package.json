@@ -1,0 +1,23 @@
+{
+  "name": "cloudways-js-client",
+  "version": "0.0.1",
+  "description": "A client library to power your applications with Cloudways API",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "rimraf ./build && tsc",
+    "start": "npm run build && node build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["Cloudways", "API", "server management", "web apps", "integration", "automation"],
+  "author": "Giovani Rodriguez",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.3.2",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
+  }
+}
