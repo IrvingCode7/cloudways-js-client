@@ -105,7 +105,7 @@ import {
   BotProtectionIPWhitelistingResponse,
   BotProtectionBadBotsWhitelistingParameters,
   BotProtectionBadBotsWhitelistingResponse,
-} from "../types/appManagement";
+} from "../types/appManagement.js";
 
 const baseURL = "https://api.cloudways.com/api/v1";
 

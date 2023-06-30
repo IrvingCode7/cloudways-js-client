@@ -19,7 +19,7 @@ import {
   VerifyElasticEmailDomainResponse,
   DeleteElasticEmailDomainParameters,
   DeleteElasticEmailDomainResponse,
-} from "../types/addonsManagement";
+} from "../types/addonsManagement.js";
 
 const baseURL = "https://api.cloudways.com/api/v1";
 

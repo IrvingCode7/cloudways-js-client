@@ -10,7 +10,7 @@ import {
   GetSupervisorQueuesResponse,
   RestartSupervisorQueueParameters,
   RestartSupervisorQueueResponse,
-} from "../types/supervisord";
+} from "../types/supervisord.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const supervisord = {

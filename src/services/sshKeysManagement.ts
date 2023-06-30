@@ -7,7 +7,7 @@ import {
   DeleteSSHKeyResponse,
   UpdateSSHKeyParameters,
   UpdateSSHKeyResponse,
-} from "../types/sshKeysManagement";
+} from "../types/sshKeysManagement.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const sshKey = {

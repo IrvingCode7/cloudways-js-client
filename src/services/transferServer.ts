@@ -7,7 +7,7 @@ import {
   GetServerTransferStatusResponse,
   RequestServerTransferParameters,
   RequestServerTransferResponse,
-} from "../types/transferServer";
+} from "../types/transferServer.js";
 
 const baseURL = "https://api.cloudways.com/api/v1";
 

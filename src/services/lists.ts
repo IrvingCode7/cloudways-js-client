@@ -9,8 +9,8 @@ import {
   GetRegionListResponse,
   GetServerSizesListResponse,
   GetSettingsListResponse,
-} from "../types/lists";
-import { GetAppSettingValueResponse } from "../types/appManagement";
+} from "../types/lists.js";
+import { GetAppSettingValueResponse } from "../types/appManagement.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const lists = {

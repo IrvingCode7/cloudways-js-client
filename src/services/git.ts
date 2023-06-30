@@ -13,7 +13,7 @@ import {
   StartGitCloneResponse,
   StartGitPullParameters,
   StartGitPullResponse,
-} from "../types/git";
+} from "../types/git.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const git = {

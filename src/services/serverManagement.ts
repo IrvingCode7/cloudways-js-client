@@ -32,7 +32,7 @@ import {
   UpdateDiskCleanupSettingsResponse,
   OptimizeServerDiskParameters,
   OptimizeServerDiskResponse,
-} from "../types/serverManagement";
+} from "../types/serverManagement.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const serverManagement = {

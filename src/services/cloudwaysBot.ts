@@ -15,7 +15,7 @@ import {
   MarkAlertAsReadResponse,
   UpdateAlertChannelParameters,
   UpdateAlertChannelResponse,
-} from "../types/cloudwaysBot";
+} from "../types/cloudwaysBot.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const cloudwaysBot = {

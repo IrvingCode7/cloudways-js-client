@@ -11,7 +11,7 @@ import {
   HtaccessUpdateCredentialsResponse,
   StagingApplicationDeploymentLogsResponse,
   StagingDeleteLocalBackupResponse,
-} from "../types/stagingManagement";
+} from "../types/stagingManagement.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const stagingManagement = {

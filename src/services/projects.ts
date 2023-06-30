@@ -8,7 +8,7 @@ import {
   GetProjectListResponse,
   UpdateProjectParameters,
   UpdateProjectResponse,
-} from "../types/projects";
+} from "../types/projects.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const projects = {

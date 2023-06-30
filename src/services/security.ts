@@ -35,7 +35,7 @@ import {
   RemoveOwnSSLCertificateResponse,
   UpdateWhitelistedIPsParameters,
   UpdateWhitelistedIPsResponse,
-} from "../types/security";
+} from "../types/security.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const security = {

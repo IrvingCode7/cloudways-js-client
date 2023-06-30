@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { GetOperationStatusResponse } from "../types/operation";
+import { GetOperationStatusResponse } from "../types/operation.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const appManagement = {

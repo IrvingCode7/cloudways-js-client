@@ -14,7 +14,7 @@ import {
   DeleteAppResponse,
   UpdateAppLabelParameters,
   UpdateAppLabelResponse,
-} from "../types/application";
+} from "../types/application.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const application = {

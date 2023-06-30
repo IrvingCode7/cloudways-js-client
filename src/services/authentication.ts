@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import {
   GetOAuthAccessTokenRequest,
   GetOAuthAccessTokenResponse,
-} from "../types/authentication";
+} from "../types/authentication.js";
 
 const baseURL = "https://api.cloudways.com/api/v1";
 

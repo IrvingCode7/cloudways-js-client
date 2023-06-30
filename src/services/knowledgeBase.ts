@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import {
   SearchKnowledgeBaseParameters,
   SearchKnowledgeBaseResponse,
-} from "../types/knowledgeBase";
+} from "../types/knowledgeBase.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const knowledgeBase = {

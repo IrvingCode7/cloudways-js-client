@@ -8,7 +8,7 @@ import {
   UpdateTeamMemberResponse,
   DeleteTeamMemberParameters,
   DeleteTeamMemberResponse,
-} from "../types/teamMember";
+} from "../types/teamMember.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const teamMember = {

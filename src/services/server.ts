@@ -25,7 +25,7 @@ import {
   UpdateServerLabelResponse,
   UpgradeServerParameters,
   UpgradeServerResponse,
-} from "../types/server";
+} from "../types/server.js";
 
 const baseURL = "https://api.cloudways.com/api/v1/server";
 

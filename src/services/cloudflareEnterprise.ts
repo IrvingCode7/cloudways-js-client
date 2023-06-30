@@ -16,7 +16,7 @@ import {
   GetDnsQueryResponse,
   VerifyTxtRecordsParameters,
   VerifyTxtRecordsResponse,
-} from "../types/cloudflareEnterprise";
+} from "../types/cloudflareEnterprise.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const cloudflareEnterprise = {

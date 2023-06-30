@@ -13,7 +13,7 @@ import {
   MySQLAnalyticsParameters,
   RunningCronParameters,
   AnalyticsResponse,
-} from "../types/monitorAnalytic";
+} from "../types/monitorAnalytic.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const monitorAnalytic = {

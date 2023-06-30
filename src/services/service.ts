@@ -11,7 +11,7 @@ import {
   UpdateServerVarnishStateResponse,
   UpdateAppVarnishStateParameters,
   UpdateAppVarnishStateResponse,
-} from "../types/service";
+} from "../types/service.js";
 const baseURL = "https://api.cloudways.com/api/v1";
 
 const service = {
