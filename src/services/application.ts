@@ -1,53 +1,84 @@
 import axios, { AxiosResponse } from "axios";
 import {
-  ChangeApplicationAccessStateRequest,
-  ChangeApplicationAccessStateResponse,
-  GetApplicationBackupStatusRequest,
-  GetApplicationBackupStatusResponse,
-  CreateAppCredentialsRequest,
-  CreateAppCredentialsResponse,
-  DeleteAppCredentialRequest,
-  DeleteAppCredentialResponse,
+  AddAppParameters,
+  AddAppResponse,
+  CloneAppParameters,
+  CloneAppResponse,
+  CloneAppToOtherServerParameters,
+  CloneAppToOtherServerResponse,
+  CloneStagingAppParameters,
+  CloneStagingAppResponse,
+  CloneStagingAppToOtherServerParameters,
+  CloneStagingAppToOtherServerResponse,
+  DeleteAppParameters,
+  DeleteAppResponse,
+  UpdateAppLabelParameters,
+  UpdateAppLabelResponse,
 } from "../types/application";
-
 const baseURL = "https://api.cloudways.com/api/v1";
 
-export async function changeApplicationAccessState(
-  requestData: ChangeApplicationAccessStateRequest
-): Promise<ChangeApplicationAccessStateResponse> {
-  const response: AxiosResponse = await axios.post(
-    `${baseURL}/app/state`,
-    requestData
-  );
-  return response.data;
-}
+const application = {
+  addApp: async (params: AddAppParameters): Promise<AddAppResponse> => {
+    const response: AxiosResponse = await axios.post(`${baseURL}/app`, params);
+    return response.data;
+  },
 
-export async function getApplicationBackupStatus(
-  requestData: GetApplicationBackupStatusRequest
-): Promise<GetApplicationBackupStatusResponse> {
-  const response: AxiosResponse = await axios.get(
-    `${baseURL}/app/manage/backup`,
-    { params: requestData }
-  );
-  return response.data;
-}
+  cloneApp: async (params: CloneAppParameters): Promise<CloneAppResponse> => {
+    const response: AxiosResponse = await axios.post(
+      `${baseURL}/app/clone`,
+      params
+    );
+    return response.data;
+  },
 
-export async function createAppCredentials(
-  requestData: CreateAppCredentialsRequest
-): Promise<CreateAppCredentialsResponse> {
-  const response: AxiosResponse = await axios.post(
-    `${baseURL}/app/creds`,
-    requestData
-  );
-  return response.data;
-}
+  cloneAppToOtherServer: async (
+    params: CloneAppToOtherServerParameters
+  ): Promise<CloneAppToOtherServerResponse> => {
+    const response: AxiosResponse = await axios.post(
+      `${baseURL}/app/cloneToOtherServer`,
+      params
+    );
+    return response.data;
+  },
 
-export async function deleteAppCredential(
-  requestData: DeleteAppCredentialRequest
-): Promise<DeleteAppCredentialResponse> {
-  const response: AxiosResponse = await axios.delete(
-    `${baseURL}/app/creds/${requestData.app_cred_id}`,
-    { data: requestData }
-  );
-  return response.data;
-}
+  cloneStagingApp: async (
+    params: CloneStagingAppParameters
+  ): Promise<CloneStagingAppResponse> => {
+    const response: AxiosResponse = await axios.post(
+      `${baseURL}/staging/app/cloneApp`,
+      params
+    );
+    return response.data;
+  },
+
+  cloneStagingAppToOtherServer: async (
+    params: CloneStagingAppToOtherServerParameters
+  ): Promise<CloneStagingAppToOtherServerResponse> => {
+    const response: AxiosResponse = await axios.post(
+      `${baseURL}/staging/app/cloneToOtherServer`,
+      params
+    );
+    return response.data;
+  },
+
+  deleteApp: async (
+    params: DeleteAppParameters
+  ): Promise<DeleteAppResponse> => {
+    const response: AxiosResponse = await axios.delete(
+      `${baseURL}/app/${params.appId}`,
+      { params }
+    );
+    return response.data;
+  },
+
+  updateAppLabel: async (
+    params: UpdateAppLabelParameters
+  ): Promise<UpdateAppLabelResponse> => {
+    const response: AxiosResponse = await axios.put(
+      `${baseURL}/app/${params.appId}`,
+      params
+    );
+    return response.data;
+  },
+};
+export default application;

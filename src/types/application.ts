@@ -1,36 +1,74 @@
-export interface ChangeApplicationAccessStateRequest {
+export interface AddAppParameters {
   server_id: number;
-  app_id: number;
-  state: "Enable" | "Disable";
+  application: string;
+  app_label: string;
+  project_name?: string;
 }
 
-export interface ChangeApplicationAccessStateResponse {}
-
-export interface GetApplicationBackupStatusRequest {
-  server_id: number;
-  app_id: number;
-}
-
-export interface GetApplicationBackupStatusResponse {
-  status: boolean;
+export interface AddAppResponse {
   operation_id: number;
 }
 
-export interface CreateAppCredentialsRequest {
+export interface CloneAppParameters {
   server_id: number;
   app_id: number;
-  username: string;
-  password: string;
+  app_label: string;
 }
 
-export interface CreateAppCredentialsResponse {
-  app_cred_id: number;
+export interface CloneAppResponse {
+  app_id: number;
+  operation_id: number;
 }
 
-export interface DeleteAppCredentialRequest {
+export interface CloneAppToOtherServerParameters {
   server_id: number;
   app_id: number;
-  app_cred_id: number;
+  destination_server_id: number;
 }
 
-export interface DeleteAppCredentialResponse {}
+export interface CloneAppToOtherServerResponse {
+  source_operation_id: number;
+  destination_operation_id: number;
+  app_id: number;
+}
+
+export interface CloneStagingAppParameters {
+  server_id: number;
+  app_id: number;
+}
+
+export interface CloneStagingAppResponse {
+  app_id: number;
+  operation_id: number;
+}
+
+export interface CloneStagingAppToOtherServerParameters {
+  server_id: number;
+  app_id: number;
+  destination_server_id: number;
+}
+
+export interface CloneStagingAppToOtherServerResponse {
+  source_operation_id: number;
+  destination_operation_id: number;
+  app_id: number;
+}
+
+export interface DeleteAppParameters {
+  server_id: number;
+  appId: number;
+}
+
+export interface DeleteAppResponse {
+  operation_id: number;
+}
+
+export interface UpdateAppLabelParameters {
+  appId: number;
+  server_id: number;
+  label: string;
+}
+
+export interface UpdateAppLabelResponse {
+  status: boolean;
+}
