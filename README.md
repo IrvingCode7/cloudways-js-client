@@ -39,7 +39,7 @@ const authenticate = authentication.authenticate();
 // ...
 </code></pre>
 
-<p>For detailed usage examples and API documentation, please refer to the <a href="link-to-documentation">documentation</a>.</p>
+<p>For detailed usage examples and API documentation, please refer to the <a href="https://developers.cloudways.com/docs/">documentation</a>.</p>
 
 <h2>Contributing</h2>
 
@@ -47,8 +47,8 @@ const authenticate = authentication.authenticate();
 
 <h2>Issues</h2>
 
-<p>If you find any issues or have any feature requests, please open an <a href="link-to-issues">issue</a> on GitHub.</p>
+<p>If you find any issues or have any feature requests, please open an <a href="https://github.com/code-gio/cloudways-js-client/issues">issue</a> on GitHub.</p>
 
 <h2>License</h2>
 
-<p>This project is open source and available under the <a href="link-to-license">MIT License</a>.</p>
+<p>This project is open source and available under the <a href="https://opensource.org/licenses/MIT">MIT License</a>.</p>
