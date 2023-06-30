@@ -43,7 +43,7 @@ const authenticate = authentication.authenticate();
 
 <h2>Contributing</h2>
 
-<p>Contributions are welcome! Please follow the <a href="link-to-contribution-guidelines">contribution guidelines</a> when making contributions to this project.</p>
+<p>Contributions are welcome! Please follow the <a href="https://github.com/code-gio/cloudways-js-client/blob/main/CONTRIBUTING.md">contribution guidelines</a> when making contributions to this project.</p>
 
 <h2>Issues</h2>
 
