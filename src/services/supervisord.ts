@@ -10,70 +10,70 @@ import {
   GetSupervisorQueuesResponse,
   RestartSupervisorQueueParameters,
   RestartSupervisorQueueResponse,
-} from "../types/supervisord.js";
+} from "../types/supervisord";
 import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
-// replace this with your actual access token
-const accessToken = getAccessToken();
 
-axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+export async function createSupervisorQueue(
+  params: CreateSupervisorQueueParameters
+): Promise<CreateSupervisorQueueResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.post(
+    `${baseURL}/app/supervisor`,
+    params
+  );
+  return response.data;
+}
 
-const supervisord = {
-  // Existing functions...
-  createSupervisorQueue: async (
-    params: CreateSupervisorQueueParameters
-  ): Promise<CreateSupervisorQueueResponse> => {
-    const response: AxiosResponse = await axios.post(
-      `${baseURL}/app/supervisor`,
-      params
-    );
-    return response.data;
-  },
+export async function deleteSupervisorQueue(
+  params: DeleteSupervisorQueueParameters
+): Promise<DeleteSupervisorQueueResponse> {
+  const { server_id, app_id, id } = params;
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.delete(
+    `${baseURL}/app/supervisor/${id}`,
+    {
+      params: { server_id, app_id },
+    }
+  );
+  return response.data;
+}
 
-  deleteSupervisorQueue: async (
-    params: DeleteSupervisorQueueParameters
-  ): Promise<DeleteSupervisorQueueResponse> => {
-    const { server_id, app_id, id } = params;
-    const response: AxiosResponse = await axios.delete(
-      `${baseURL}/app/supervisor/${id}`,
-      {
-        params: { server_id, app_id },
-      }
-    );
-    return response.data;
-  },
+export async function getSupervisorQueueStatus(
+  params: GetSupervisorQueueStatusParameters
+): Promise<GetSupervisorQueueStatusResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(
+    `${baseURL}/supervisor/queue/status`,
+    {
+      params,
+    }
+  );
+  return response.data;
+}
 
-  getSupervisorQueueStatus: async (
-    params: GetSupervisorQueueStatusParameters
-  ): Promise<GetSupervisorQueueStatusResponse> => {
-    const response: AxiosResponse = await axios.get(
-      `${baseURL}/supervisor/queue/status`,
-      {
-        params,
-      }
-    );
-    return response.data;
-  },
+export async function getSupervisorQueues(
+  params: GetSupervisorQueuesParameters
+): Promise<GetSupervisorQueuesResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(`${baseURL}/app/supervisor`, {
+    params,
+  });
+  return response.data;
+}
 
-  getSupervisorQueues: async (
-    params: GetSupervisorQueuesParameters
-  ): Promise<GetSupervisorQueuesResponse> => {
-    const response: AxiosResponse = await axios.get(
-      `${baseURL}/app/supervisor`,
-      { params }
-    );
-    return response.data;
-  },
-
-  restartSupervisorQueue: async (
-    params: RestartSupervisorQueueParameters
-  ): Promise<RestartSupervisorQueueResponse> => {
-    const response: AxiosResponse = await axios.post(
-      `${baseURL}/supervisor/queue/restart`,
-      params
-    );
-    return response.data;
-  },
-};
-
-module.exports = supervisord;
+export async function restartSupervisorQueue(
+  params: RestartSupervisorQueueParameters
+): Promise<RestartSupervisorQueueResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.post(
+    `${baseURL}/supervisor/queue/restart`,
+    params
+  );
+  return response.data;
+}

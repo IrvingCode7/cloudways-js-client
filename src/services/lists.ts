@@ -9,71 +9,81 @@ import {
   GetRegionListResponse,
   GetServerSizesListResponse,
   GetSettingsListResponse,
-} from "../types/lists.js";
+} from "../types/lists";
 import { GetAppSettingValueResponse } from "../types/appManagement.js";
 import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
-// replace this with your actual access token
-const accessToken = getAccessToken();
 
-axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+export async function getApps(): Promise<GetAppSettingValueResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(`${baseURL}/apps`);
+  return response.data;
+}
 
-const lists = {
-  getApps: async (): Promise<GetAppSettingValueResponse> => {
-    const response: AxiosResponse = await axios.get(`${baseURL}/apps`);
-    return response.data;
-  },
+export async function getBackupFrequencies(): Promise<GetBackupFrequenciesResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(
+    `${baseURL}/backup-frequencies`
+  );
+  return response.data;
+}
 
-  getBackupFrequencies: async (): Promise<GetBackupFrequenciesResponse> => {
-    const response: AxiosResponse = await axios.get(
-      `${baseURL}/backup-frequencies`
-    );
-    return response.data;
-  },
+export async function getCountries(): Promise<GetCountriesListResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(`${baseURL}/countries`);
+  return response.data;
+}
 
-  getCountries: async (): Promise<GetCountriesListResponse> => {
-    const response: AxiosResponse = await axios.get(`${baseURL}/countries`);
-    return response.data;
-  },
+export async function getMonitorDurations(): Promise<GetMonitorDurationsResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(
+    `${baseURL}/monitor_durations`
+  );
+  return response.data;
+}
 
-  getMonitorDurations: async (): Promise<GetMonitorDurationsResponse> => {
-    const response: AxiosResponse = await axios.get(
-      `${baseURL}/monitor_durations`
-    );
-    return response.data;
-  },
+export async function getMonitorTargets(): Promise<GetMonitorTargetsResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(`${baseURL}/monitor_targets`);
+  return response.data;
+}
 
-  getMonitorTargets: async (): Promise<GetMonitorTargetsResponse> => {
-    const response: AxiosResponse = await axios.get(
-      `${baseURL}/monitor_targets`
-    );
-    return response.data;
-  },
+export async function getPackages(): Promise<GetPackageListResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(`${baseURL}/packages`);
+  return response.data;
+}
 
-  getPackages: async (): Promise<GetPackageListResponse> => {
-    const response: AxiosResponse = await axios.get(`${baseURL}/packages`);
-    return response.data;
-  },
+export async function getProviders(): Promise<GetProviderListResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(`${baseURL}/providers`);
+  return response.data;
+}
 
-  getProviders: async (): Promise<GetProviderListResponse> => {
-    const response: AxiosResponse = await axios.get(`${baseURL}/providers`);
-    return response.data;
-  },
+export async function getRegions(): Promise<GetRegionListResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(`${baseURL}/regions`);
+  return response.data;
+}
 
-  getRegions: async (): Promise<GetRegionListResponse> => {
-    const response: AxiosResponse = await axios.get(`${baseURL}/regions`);
-    return response.data;
-  },
+export async function getServerSizes(): Promise<GetServerSizesListResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(`${baseURL}/server_sizes`);
+  return response.data;
+}
 
-  getServerSizes: async (): Promise<GetServerSizesListResponse> => {
-    const response: AxiosResponse = await axios.get(`${baseURL}/server_sizes`);
-    return response.data;
-  },
-
-  getSettingsList: async (): Promise<GetSettingsListResponse> => {
-    const response: AxiosResponse = await axios.get(`${baseURL}/settings`);
-    return response.data;
-  },
-};
-
-module.exports = lists;
+export async function getSettingsList(): Promise<GetSettingsListResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(`${baseURL}/settings`);
+  return response.data;
+}

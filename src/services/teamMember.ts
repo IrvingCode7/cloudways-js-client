@@ -8,50 +8,47 @@ import {
   UpdateTeamMemberResponse,
   DeleteTeamMemberParameters,
   DeleteTeamMemberResponse,
-} from "../types/teamMember.js";
+} from "../types/teamMember";
 import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
-// replace this with your actual access token
-const accessToken = getAccessToken();
 
-axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+export async function getAllTeamMembers(): Promise<GetAllTeamMembersResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(`${baseURL}/member`);
+  return response.data;
+}
 
-const teamMember = {
-  getAllTeamMembers: async (): Promise<GetAllTeamMembersResponse> => {
-    const response: AxiosResponse = await axios.get(`${baseURL}/member`);
-    return response.data;
-  },
+export async function addTeamMember(
+  params: AddTeamMemberParameters
+): Promise<AddTeamMemberResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.post(`${baseURL}/member`, params);
+  return response.data;
+}
 
-  addTeamMember: async (
-    params: AddTeamMemberParameters
-  ): Promise<AddTeamMemberResponse> => {
-    const response: AxiosResponse = await axios.post(
-      `${baseURL}/member`,
-      params
-    );
-    return response.data;
-  },
+export async function updateTeamMember(
+  params: UpdateTeamMemberParameters
+): Promise<UpdateTeamMemberResponse> {
+  const { memberId, body } = params;
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.put(
+    `${baseURL}/member/${memberId}`,
+    body
+  );
+  return response.data;
+}
 
-  updateTeamMember: async (
-    params: UpdateTeamMemberParameters
-  ): Promise<UpdateTeamMemberResponse> => {
-    const { memberId, body } = params;
-    const response: AxiosResponse = await axios.put(
-      `${baseURL}/member/${memberId}`,
-      body
-    );
-    return response.data;
-  },
-
-  deleteTeamMember: async (
-    params: DeleteTeamMemberParameters
-  ): Promise<DeleteTeamMemberResponse> => {
-    const { memberId } = params;
-    const response: AxiosResponse = await axios.delete(
-      `${baseURL}/delete/${memberId}`
-    );
-    return response.data;
-  },
-};
-
-module.exports = teamMember;
+export async function deleteTeamMember(
+  params: DeleteTeamMemberParameters
+): Promise<DeleteTeamMemberResponse> {
+  const { memberId } = params;
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.delete(
+    `${baseURL}/delete/${memberId}`
+  );
+  return response.data;
+}

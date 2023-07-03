@@ -11,7 +11,7 @@ import {
   UpdateServerVarnishStateResponse,
   UpdateAppVarnishStateParameters,
   UpdateAppVarnishStateResponse,
-} from "../types/service.js";
+} from "../types/service";
 import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
 // replace this with your actual access token
@@ -19,55 +19,61 @@ const accessToken = getAccessToken();
 
 axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
-const service = {
-  changeServiceState: async (
-    params: ChangeServiceStateParameters
-  ): Promise<ChangeServiceStateResponse> => {
-    const response: AxiosResponse = await axios.post(
-      `${baseURL}/service/state`,
-      params
-    );
-    return response.data;
-  },
+export async function changeServiceState(
+  params: ChangeServiceStateParameters
+): Promise<ChangeServiceStateResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.post(
+    `${baseURL}/service/state`,
+    params
+  );
+  return response.data;
+}
 
-  getServicesStatus: async (
-    params: GetServicesStatusParameters
-  ): Promise<GetServicesStatusResponse> => {
-    const response: AxiosResponse = await axios.get(`${baseURL}/service`, {
-      params,
-    });
-    return response.data;
-  },
+export async function getServicesStatus(
+  params: GetServicesStatusParameters
+): Promise<GetServicesStatusResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(`${baseURL}/service`, {
+    params,
+  });
+  return response.data;
+}
 
-  getAppVarnishState: async (
-    params: GetAppVarnishStateParameters
-  ): Promise<GetAppVarnishStateResponse> => {
-    const response: AxiosResponse = await axios.get(
-      `${baseURL}/service/appVarnish`,
-      { params }
-    );
-    return response.data;
-  },
+export async function getAppVarnishState(
+  params: GetAppVarnishStateParameters
+): Promise<GetAppVarnishStateResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.get(
+    `${baseURL}/service/appVarnish`,
+    { params }
+  );
+  return response.data;
+}
 
-  updateServerVarnishState: async (
-    params: UpdateServerVarnishStateParameters
-  ): Promise<UpdateServerVarnishStateResponse> => {
-    const response: AxiosResponse = await axios.post(
-      `${baseURL}/service/varnish`,
-      params
-    );
-    return response.data;
-  },
+export async function updateServerVarnishState(
+  params: UpdateServerVarnishStateParameters
+): Promise<UpdateServerVarnishStateResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.post(
+    `${baseURL}/service/varnish`,
+    params
+  );
+  return response.data;
+}
 
-  updateAppVarnishState: async (
-    params: UpdateAppVarnishStateParameters
-  ): Promise<UpdateAppVarnishStateResponse> => {
-    const response: AxiosResponse = await axios.post(
-      `${baseURL}/service/appVarnish`,
-      params
-    );
-    return response.data;
-  },
-};
-
-module.exports = service;
+export async function updateAppVarnishState(
+  params: UpdateAppVarnishStateParameters
+): Promise<UpdateAppVarnishStateResponse> {
+  const accessToken = await getAccessToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  const response: AxiosResponse = await axios.post(
+    `${baseURL}/service/appVarnish`,
+    params
+  );
+  return response.data;
+}
