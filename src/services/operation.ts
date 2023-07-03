@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { GetOperationStatusResponse } from "../types/operation.js";
-import { getAccessToken } from "./authentication.js";
+import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
 // replace this with your actual access token
 const accessToken = getAccessToken();
@@ -20,4 +20,4 @@ const appManagement = {
   },
 };
 
-export default appManagement;
+module.exports = appManagement;

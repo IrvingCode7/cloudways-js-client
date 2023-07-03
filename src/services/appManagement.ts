@@ -106,18 +106,16 @@ import {
   BotProtectionBadBotsWhitelistingParameters,
   BotProtectionBadBotsWhitelistingResponse,
 } from "../types/appManagement.js";
-import { getAccessToken } from "./authentication.js";
+import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
-// replace this with your actual access token
-const accessToken = getAccessToken();
-
-axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
 const appManagement = {
   // Existing functions...
   changeApplicationAccessState: async (
     requestData: ChangeApplicationAccessStateRequest
   ): Promise<ChangeApplicationAccessStateResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/state`,
       requestData
@@ -128,6 +126,8 @@ const appManagement = {
   getApplicationBackupStatus: async (
     requestData: GetApplicationBackupStatusRequest
   ): Promise<GetApplicationBackupStatusResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/manage/backup`,
       {
@@ -140,6 +140,8 @@ const appManagement = {
   createAppCredentials: async (
     requestData: CreateAppCredentialsRequest
   ): Promise<CreateAppCredentialsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/creds`,
       requestData
@@ -150,6 +152,8 @@ const appManagement = {
   deleteAppCredential: async (
     requestData: DeleteAppCredentialRequest
   ): Promise<DeleteAppCredentialResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.delete(
       `${baseURL}/app/creds/${requestData.app_cred_id}`,
       { data: requestData }
@@ -159,6 +163,8 @@ const appManagement = {
   deleteCname: async (
     params: DeleteCnameParameters
   ): Promise<DeleteCnameResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.delete(
       `${baseURL}/app/manage/cname`,
       { params }
@@ -169,6 +175,8 @@ const appManagement = {
   deleteLocalBackup: async (
     params: DeleteLocalBackupParameters
   ): Promise<DeleteLocalBackupResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.delete(
       `${baseURL}/app/manage/backup`,
       { params }
@@ -179,6 +187,8 @@ const appManagement = {
   getAppCredentials: async (
     params: GetAppCredentialsParameters
   ): Promise<GetAppCredentialsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(`${baseURL}/app/creds`, {
       params,
     });
@@ -188,6 +198,8 @@ const appManagement = {
   getApplicationSSHAccessStatus: async (
     params: GetApplicationSSHAccessStatusParameters
   ): Promise<GetApplicationSSHAccessStatusResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/getAppSshPerms`,
       { params }
@@ -198,6 +210,8 @@ const appManagement = {
   getApplicationAccessState: async (
     params: GetApplicationAccessStateParameters
   ): Promise<GetApplicationAccessStateResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/getApplicationAccess`,
       { params }
@@ -208,6 +222,8 @@ const appManagement = {
   getCronList: async (
     params: GetCronListParameters
   ): Promise<GetCronListResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/manage/cronList`,
       { params }
@@ -218,6 +234,8 @@ const appManagement = {
   getFPMSettings: async (
     params: GetFPMSettingsParameters
   ): Promise<GetFPMSettingsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/manage/fpm_setting`,
       { params }
@@ -228,6 +246,8 @@ const appManagement = {
   getVarnishSettings: async (
     params: GetVarnishSettingsParameters
   ): Promise<GetVarnishSettingsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/manage/varnish_setting`,
       { params }
@@ -238,6 +258,8 @@ const appManagement = {
   resetFilePermissions: async (
     params: ResetFilePermissionsParameters
   ): Promise<ResetFilePermissionsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/reset_permissions`,
       params
@@ -248,6 +270,8 @@ const appManagement = {
   restoreApp: async (
     params: RestoreAppParameters
   ): Promise<RestoreAppResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/restore`,
       params
@@ -258,6 +282,8 @@ const appManagement = {
   rollbackRestore: async (
     params: RollbackRestoreParameters
   ): Promise<RollbackRestoreResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/rollback`,
       params
@@ -266,6 +292,8 @@ const appManagement = {
   },
 
   backup: async (params: BackupParameters): Promise<BackupResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/takeBackup`,
       params
@@ -276,6 +304,8 @@ const appManagement = {
   updateAppAliases: async (
     params: UpdateAppAliasesParameters
   ): Promise<UpdateAppAliasesResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/aliases`,
       params
@@ -286,6 +316,8 @@ const appManagement = {
   updateAppCname: async (
     params: UpdateAppCnameParameters
   ): Promise<UpdateAppCnameResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/cname`,
       params
@@ -296,6 +328,8 @@ const appManagement = {
   updateAppCredential: async (
     params: UpdateAppCredentialParameters
   ): Promise<UpdateAppCredentialResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.put(
       `${baseURL}/app/creds/${params.app_cred_id}`,
       params
@@ -305,6 +339,8 @@ const appManagement = {
   updateApplicationSSHAccess: async (
     params: UpdateApplicationSSHAccessParameters
   ): Promise<UpdateApplicationSSHAccessResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/updateAppSshPerms`,
       params
@@ -315,6 +351,8 @@ const appManagement = {
   updateCronList: async (
     params: UpdateCronListParameters
   ): Promise<UpdateCronListResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/cronList`,
       params
@@ -325,6 +363,8 @@ const appManagement = {
   updateDBPassword: async (
     params: UpdateDBPasswordParameters
   ): Promise<UpdateDBPasswordResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/dbPassword`,
       params
@@ -335,6 +375,8 @@ const appManagement = {
   updateFPMSettings: async (
     params: UpdateFPMSettingsParameters
   ): Promise<UpdateFPMSettingsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/fpm_setting`,
       params
@@ -345,6 +387,8 @@ const appManagement = {
   updateSymlink: async (
     params: UpdateSymlinkParameters
   ): Promise<UpdateSymlinkResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/symlink`,
       params
@@ -355,6 +399,8 @@ const appManagement = {
   updateVarnishSettings: async (
     params: UpdateVarnishSettingsParameters
   ): Promise<UpdateVarnishSettingsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/varnish_setting`,
       params
@@ -365,6 +411,8 @@ const appManagement = {
   updateWebroot: async (
     params: UpdateWebrootParameters
   ): Promise<UpdateWebrootResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/webroot`,
       params
@@ -375,6 +423,8 @@ const appManagement = {
   updateCorsHeaders: async (
     params: UpdateCorsHeadersParameters
   ): Promise<UpdateCorsHeadersResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/cors_header`,
       params
@@ -385,6 +435,8 @@ const appManagement = {
   getApplicationWebPRedirectionStatus: async (
     params: GetApplicationWebPRedirectionStatusParameters
   ): Promise<GetApplicationWebPRedirectionStatusResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/manage/webP`,
       { params }
@@ -395,6 +447,8 @@ const appManagement = {
   enforceHTTPS: async (
     params: EnforceHTTPSParameters
   ): Promise<EnforceHTTPSResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/enforce_https`,
       params
@@ -405,6 +459,8 @@ const appManagement = {
   getAppSettingValue: async (
     params: GetAppSettingValueParameters
   ): Promise<GetAppSettingValueResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/get_settings_value`,
       { params }
@@ -413,6 +469,8 @@ const appManagement = {
   },
 
   updateTLSSettings: async (): Promise<UpdateTLSSettingsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/manage/update_tls`
     );
@@ -422,6 +480,8 @@ const appManagement = {
   getApplicationGEOIPHeaderStatus: async (
     params: GetApplicationGEOIPHeaderStatusParameters
   ): Promise<GetApplicationGEOIPHeaderStatusResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/manage/geo_ip_header`,
       { params }
@@ -432,6 +492,8 @@ const appManagement = {
   getApplicationXMLRPCHeaderStatus: async (
     params: GetApplicationXMLRPCHeaderStatusParameters
   ): Promise<GetApplicationXMLRPCHeaderStatusResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/manage/xmlrpc`,
       { params }
@@ -442,6 +504,8 @@ const appManagement = {
   updateDirectPHPExecutionStatus: async (
     params: UpdateDirectPHPExecutionStatusParameters
   ): Promise<UpdateDirectPHPExecutionStatusResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/manage/php_direct_execution`,
       { params }
@@ -452,6 +516,8 @@ const appManagement = {
   updateApplicationAdminPasswordStatus: async (
     params: UpdateApplicationAdminPasswordStatusParameters
   ): Promise<UpdateApplicationAdminPasswordStatusResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/app/creds/changeAdminCredentials`,
       params
@@ -460,6 +526,8 @@ const appManagement = {
   },
 
   synchronizeApplication: async (): Promise<SynchronizeApplicationResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(`${baseURL}/app/sync`);
     return response.data;
   },
@@ -467,6 +535,8 @@ const appManagement = {
   getApplicationTable: async (
     params: GetApplicationTableParameters
   ): Promise<GetApplicationTableResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/staging/app/tables`,
       params
@@ -477,6 +547,8 @@ const appManagement = {
   synchronizeApp: async (
     params: SynchronizeApplicationParameters
   ): Promise<SynchronizeApplicationResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/sync/app`,
       params
@@ -486,6 +558,8 @@ const appManagement = {
   htaccessAuthStatus: async (
     params: HtaccessAuthStatusParameters
   ): Promise<HtaccessAuthStatusResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/staging/auth/status`,
       params
@@ -496,6 +570,8 @@ const appManagement = {
   htaccessUpdateCredentials: async (
     params: HtaccessUpdateCredentialsParameters
   ): Promise<HtaccessUpdateCredentialsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/staging/htaccessUpdate`,
       params
@@ -506,6 +582,8 @@ const appManagement = {
   stagingApplicationDeploymentLogs: async (
     params: StagingApplicationDeploymentLogsParameters
   ): Promise<StagingApplicationDeploymentLogsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/staging/app/logs`,
       params
@@ -516,6 +594,8 @@ const appManagement = {
   stagingDeleteLocalBackup: async (
     params: StagingDeleteLocalBackupParameters
   ): Promise<StagingDeleteLocalBackupResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/staging/app/deleteBackup`,
       params
@@ -526,6 +606,8 @@ const appManagement = {
   botProtectionStatus: async (
     params: BotProtectionStatusParameters
   ): Promise<BotProtectionStatusResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(`${baseURL}/app/malcare`, {
       params,
     });
@@ -535,6 +617,8 @@ const appManagement = {
   botProtectionTraffic: async (
     params: BotProtectionTrafficParameters
   ): Promise<BotProtectionTrafficResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/malcare/traffic`,
       { params }
@@ -545,6 +629,8 @@ const appManagement = {
   botProtectionTrafficSummary: async (
     params: BotProtectionTrafficSummaryParameters
   ): Promise<BotProtectionTrafficSummaryResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/malcare/traffic/summary`,
       { params }
@@ -554,6 +640,8 @@ const appManagement = {
   getBotProtectionLoginTraffic: async (
     params: GetBotProtectionLoginTrafficParameters
   ): Promise<GetBotProtectionLoginTrafficResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/malcare/logins`,
       { params }
@@ -564,6 +652,8 @@ const appManagement = {
   getBotProtectionLoginTrafficSummary: async (
     params: GetBotProtectionLoginTrafficSummaryParameters
   ): Promise<GetBotProtectionLoginTrafficSummaryResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/malcare/logins/summary`,
       { params }
@@ -574,6 +664,8 @@ const appManagement = {
   getBotProtectionBadBotsList: async (
     params: GetBotProtectionBadBotsListParameters
   ): Promise<GetBotProtectionBadBotsListResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/malcare/bots/bad`,
       { params }
@@ -584,6 +676,8 @@ const appManagement = {
   getBotProtectionWhitelistedIPs: async (
     params: GetBotProtectionWhitelistedIPsParameters
   ): Promise<GetBotProtectionWhitelistedIPsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/malcare/whitelisted_ips`,
       { params }
@@ -594,6 +688,8 @@ const appManagement = {
   getBotProtectionWhitelistedBots: async (
     params: GetBotProtectionWhitelistedBotsParameters
   ): Promise<GetBotProtectionWhitelistedBotsResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(
       `${baseURL}/app/malcare/whitelisted_bots`,
       { params }
@@ -604,6 +700,8 @@ const appManagement = {
   activateBotProtection: async (
     params: ActivateBotProtectionParameters
   ): Promise<ActivateBotProtectionResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.put(
       `${baseURL}/app/malcare/enable`,
       params
@@ -614,6 +712,8 @@ const appManagement = {
   deactivateBotProtection: async (
     params: DeactivateBotProtectionParameters
   ): Promise<DeactivateBotProtectionResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.put(
       `${baseURL}/app/malcare/disable`,
       params
@@ -624,6 +724,8 @@ const appManagement = {
   botProtectionIPWhitelisting: async (
     params: BotProtectionIPWhitelistingParameters
   ): Promise<BotProtectionIPWhitelistingResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.put(
       `${baseURL}/app/malcare/whitelist_ip`,
       params
@@ -634,6 +736,8 @@ const appManagement = {
   botProtectionBadBotsWhitelisting: async (
     params: BotProtectionBadBotsWhitelistingParameters
   ): Promise<BotProtectionBadBotsWhitelistingResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.put(
       `${baseURL}/app/malcare/whitelist_bot`,
       params
@@ -642,4 +746,4 @@ const appManagement = {
   },
 };
 
-export default appManagement;
+module.exports = appManagement;

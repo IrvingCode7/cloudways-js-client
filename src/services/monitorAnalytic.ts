@@ -14,7 +14,7 @@ import {
   RunningCronParameters,
   AnalyticsResponse,
 } from "../types/monitorAnalytic.js";
-import { getAccessToken } from "./authentication.js";
+import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
 // replace this with your actual access token
 const accessToken = getAccessToken();
@@ -169,4 +169,4 @@ const monitorAnalytic = {
   },
 };
 
-export default monitorAnalytic;
+module.exports = monitorAnalytic;

@@ -14,7 +14,7 @@ import {
   StartGitPullParameters,
   StartGitPullResponse,
 } from "../types/git.js";
-import { getAccessToken } from "./authentication.js";
+import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
 // replace this with your actual access token
 const accessToken = getAccessToken();
@@ -81,4 +81,4 @@ const git = {
   },
 };
 
-export default git;
+module.exports = git;

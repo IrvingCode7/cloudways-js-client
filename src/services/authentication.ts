@@ -10,22 +10,18 @@ let accessToken: string | null = null;
 let lastCredentials: GetOAuthAccessTokenRequest | null = null;
 let tokenExpirationTimestamp: number | null = null;
 
-const authentication = {
-  getOAuthAccessToken: async (
-    params: GetOAuthAccessTokenRequest
-  ): Promise<GetOAuthAccessTokenResponse> => {
-    const response: AxiosResponse = await axios.post(
-      `${baseURL}/oauth/access_token`,
-      params
-    );
-    accessToken = response.data.access_token; // Store the access token
-    tokenExpirationTimestamp = Date.now() + response.data.expires_in * 1000; // Set the expiration timestamp
-    lastCredentials = params; // Store the last provided credentials
-    return response.data;
-  },
-};
-
-export default authentication;
+export async function getOAuthAccessToken(
+  params: GetOAuthAccessTokenRequest
+): Promise<GetOAuthAccessTokenResponse> {
+  const response: AxiosResponse = await axios.post(
+    `${baseURL}/oauth/access_token`,
+    params
+  );
+  accessToken = response.data.access_token; // Store the access token
+  tokenExpirationTimestamp = Date.now() + response.data.expires_in * 1000; // Set the expiration timestamp
+  lastCredentials = params; // Store the last provided credentials
+  return response.data;
+}
 
 export const getAccessToken = async () => {
   if (
@@ -35,7 +31,7 @@ export const getAccessToken = async () => {
   ) {
     return accessToken; // Return the existing access token if it's still valid
   } else if (lastCredentials) {
-    await authentication.getOAuthAccessToken(lastCredentials); // Obtain a new access token using the last provided credentials
+    await getOAuthAccessToken(lastCredentials); // Obtain a new access token using the last provided credentials
     return accessToken;
   } else {
     throw new Error("Access token expired and no last credentials provided.");

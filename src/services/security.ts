@@ -36,7 +36,7 @@ import {
   UpdateWhitelistedIPsParameters,
   UpdateWhitelistedIPsResponse,
 } from "../types/security.js";
-import { getAccessToken } from "./authentication.js";
+import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
 // replace this with your actual access token
 const accessToken = getAccessToken();
@@ -214,4 +214,4 @@ const security = {
   },
 };
 
-export default security;
+module.exports = security;

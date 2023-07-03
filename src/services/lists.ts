@@ -11,7 +11,7 @@ import {
   GetSettingsListResponse,
 } from "../types/lists.js";
 import { GetAppSettingValueResponse } from "../types/appManagement.js";
-import { getAccessToken } from "./authentication.js";
+import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
 // replace this with your actual access token
 const accessToken = getAccessToken();
@@ -76,4 +76,4 @@ const lists = {
   },
 };
 
-export default lists;
+module.exports = lists;

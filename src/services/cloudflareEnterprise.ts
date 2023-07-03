@@ -17,7 +17,7 @@ import {
   VerifyTxtRecordsParameters,
   VerifyTxtRecordsResponse,
 } from "../types/cloudflareEnterprise.js";
-import { getAccessToken } from "./authentication.js";
+import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
 // replace this with your actual access token
 const accessToken = getAccessToken();
@@ -106,4 +106,4 @@ const cloudflareEnterprise = {
   },
 };
 
-export default cloudflareEnterprise;
+module.exports = cloudflareEnterprise;

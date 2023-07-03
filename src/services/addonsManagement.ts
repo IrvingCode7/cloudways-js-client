@@ -20,17 +20,15 @@ import {
   DeleteElasticEmailDomainParameters,
   DeleteElasticEmailDomainResponse,
 } from "../types/addonsManagement.js";
-import { getAccessToken } from "./authentication.js";
+import { getAccessToken } from "./authentication";
 const baseURL = "https://api.cloudways.com/api/v1";
-// replace this with your actual access token
-const accessToken = getAccessToken();
-
-axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
 const addonsManagement = {
   activateAddOnOnServer: async (
     requestData: ActivateAddOnOnServerRequest
   ): Promise<ActivateAddOnOnServerResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/addon/activateOnServer`,
       requestData
@@ -41,6 +39,8 @@ const addonsManagement = {
   activateAddOnAccountLevel: async (
     requestData: ActivateAddOnAccountLevelRequest
   ): Promise<ActivateAddOnAccountLevelResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/addon/activate`,
       requestData
@@ -51,6 +51,8 @@ const addonsManagement = {
   addOnRequestForApplication: async (
     requestData: AddOnRequestForApplicationRequest
   ): Promise<AddOnRequestForApplicationResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/addon/request`,
       requestData
@@ -61,6 +63,8 @@ const addonsManagement = {
   deactivateAddOnOnServer: async (
     requestData: DeactivateAddOnOnServerRequest
   ): Promise<DeactivateAddOnOnServerResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/addon/deactivateOnServer`,
       requestData
@@ -71,6 +75,8 @@ const addonsManagement = {
   deactivateAddon: async (
     requestData: DeactivateAddonRequest
   ): Promise<DeactivateAddonResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/addon/deactivate`,
       requestData
@@ -79,6 +85,8 @@ const addonsManagement = {
   },
 
   getAddonsList: async (): Promise<GetAddonsListResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.get(`${baseURL}/addon`);
     return response.data;
   },
@@ -86,6 +94,8 @@ const addonsManagement = {
   upgradeAddonPackage: async (
     params: UpgradeAddonPackageParameters
   ): Promise<UpgradeAddonPackageResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/addon/upgrade`,
       params
@@ -95,6 +105,8 @@ const addonsManagement = {
 
   listElasticEmailDomains:
     async (): Promise<ListElasticEmailDomainsResponse> => {
+      const accessToken = await getAccessToken();
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       const response: AxiosResponse = await axios.get(
         `${baseURL}/addon/elastic/domains`
       );
@@ -104,6 +116,8 @@ const addonsManagement = {
   verifyElasticEmailDomain: async (
     params: VerifyElasticEmailDomainParameters
   ): Promise<VerifyElasticEmailDomainResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.post(
       `${baseURL}/addon/elastic/verify_domain`,
       null,
@@ -115,6 +129,8 @@ const addonsManagement = {
   deleteElasticEmailDomain: async (
     params: DeleteElasticEmailDomainParameters
   ): Promise<DeleteElasticEmailDomainResponse> => {
+    const accessToken = await getAccessToken();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     const response: AxiosResponse = await axios.delete(
       `${baseURL}/addon/elastic/domain`,
       { params }
@@ -123,4 +139,4 @@ const addonsManagement = {
   },
 };
 
-export default addonsManagement;
+module.exports = addonsManagement;
