@@ -8,7 +8,7 @@ import { apiCall, HttpMethod } from "../auth";
  * @property {number} server_id - Numeric ID of the server to which the storage will be attached.
  * @property {number} server_storage - Size of the block storage to be attached.
  */
-interface AttachBlockStoragePayload {
+export interface AttachBlockStoragePayload {
   server_id: number;
   server_storage: number;
 }
@@ -20,7 +20,7 @@ interface AttachBlockStoragePayload {
  *
  * @property {number} operation_id - Numeric ID of the operation, used for tracking the attach storage process.
  */
-interface AttachBlockStorageResponse {
+export interface AttachBlockStorageResponse {
   operation_id: number;
 }
 
@@ -47,7 +47,7 @@ interface AttachBlockStorageResponse {
  * @property {boolean} [app_credentials] - Optional. Whether to copy application credentials.
  * @property {boolean} [team_access] - Optional. Whether to copy team access settings.
  */
-interface CloneServerPayload {
+export interface CloneServerPayload {
   source_server_id: number;
   cloud: string;
   region: string;
@@ -74,7 +74,7 @@ interface CloneServerPayload {
  *
  * @property {number} operation_id - Numeric ID of the operation, used for tracking the cloning process.
  */
-interface CloneServerResponse {
+export interface CloneServerResponse {
   operation_id: number;
 }
 
@@ -94,7 +94,7 @@ interface CloneServerResponse {
  * @property {number} [db_volume_size] - Optional. Size of the DB volume on the new server, required only for Amazon and GCE.
  * @property {number} [data_volume_size] - Optional. Size of the data volume on the new server, required only for Amazon and GCE.
  */
-interface CreateServerPayload {
+export interface CreateServerPayload {
   cloud: string;
   region: string;
   instance_type: string;
@@ -108,20 +108,20 @@ interface CreateServerPayload {
 }
 
 /**
- * @interface DeleteServerPayload
+ * @export interface DeleteServerPayload
  * @description Interface for the payload used to delete a server.
  * @property {number} serverId - The numeric identifier for the server you wish to delete.
  */
-interface DeleteServerPayload {
+export interface DeleteServerPayload {
   serverId: number;
 }
 
 /**
- * @interface GetDiskUsagePayload
+ * @export interface GetDiskUsagePayload
  * @description Interface for the payload used to initiate fetching of disk usage for a server.
  * @property {number} server_id - The numeric identifier for the server whose disk usage you wish to fetch.
  */
-interface GetDiskUsagePayload {
+export interface GetDiskUsagePayload {
   server_id: number;
 }
 
@@ -139,7 +139,7 @@ interface GetDiskUsagePayload {
  * @property {string} is_completed - Whether the operation is completed or not.
  * @property {string} message - Message related to the operation's status.
  */
-interface OperationInfo {
+export interface OperationInfo {
   id: number;
   type: string;
   server_id: string;
@@ -181,7 +181,7 @@ interface OperationInfo {
  * @property {Array<string>} server.addons - List of addons installed on the server.
  * @property {Array<OperationInfo>} server.operations - List of operations related to the server.
  */
-interface CreateServerResponse {
+export interface CreateServerResponse {
   server: {
     id: string;
     label: string;
@@ -217,7 +217,7 @@ interface CreateServerResponse {
  *
  * @property {number} operation_id - Numeric ID for tracking the deletion operation.
  */
-interface DeleteServerResponse {
+export interface DeleteServerResponse {
   operation_id: number;
 }
 
@@ -229,14 +229,14 @@ interface DeleteServerResponse {
  * @property {boolean} status - Indicates whether the operation was successful.
  * @property {string} operation_id - UUID for tracking the disk usage fetch operation.
  */
-interface GetDiskUsageResponse {
+export interface GetDiskUsageResponse {
   status: boolean;
   operation_id: string;
 }
 
 /**
  * @typedef AppInfo
- * Detailed interface for information about each application installed on a server.
+ * Detailed export interface for information about each application installed on a server.
  * @property {string} id - Unique identifier of the application.
  * @property {string} label - Label or name of the application.
  * @property {string} application - Type of the application (e.g., wordpress, joomla).
@@ -261,7 +261,7 @@ interface GetDiskUsageResponse {
  * @property {string} app_version_id - App version identifier.
  * @property {string} cms_app_id - CMS application identifier.
  */
-interface AppInfo {
+export interface AppInfo {
   id: string;
   label: string;
   application: string;
@@ -289,7 +289,7 @@ interface AppInfo {
 
 /**
  * @typedef ServerInfo
- * Detailed interface for information about each server.
+ * Detailed export interface for information about each server.
  * @property {string} id - Unique identifier of the server.
  * @property {string} label - Label or name of the server.
  * @property {string} status - Current status of the server (e.g., running, stopped).
@@ -314,7 +314,7 @@ interface AppInfo {
  * @property {string | null} snapshot_frequency - Snapshot frequency if available.
  * @property {AppInfo[]} apps - List of applications installed on the server.
  */
-interface ServerInfo {
+export interface ServerInfo {
   id: string;
   label: string;
   status: string;
@@ -346,7 +346,7 @@ interface ServerInfo {
  * @property {boolean} status - Indicates whether the operation was successful.
  * @property {ServerInfo[]} servers - List of servers with detailed information.
  */
-interface GetServersListResponse {
+export interface GetServersListResponse {
   status: boolean;
   servers: ServerInfo[];
 }
@@ -356,7 +356,7 @@ interface GetServersListResponse {
  * Interface for the parameters required to restart a server.
  * @property {number} server_id - Numeric id of the server to be restarted.
  */
-interface RestartServerRequest {
+export interface RestartServerRequest {
   server_id: number;
 }
 
@@ -365,7 +365,7 @@ interface RestartServerRequest {
  * Interface for the response received when restarting a server.
  * @property {number} operation_id - Operation identifier for the server restart operation.
  */
-interface RestartServerResponse {
+export interface RestartServerResponse {
   operation_id: number;
 }
 
@@ -375,7 +375,7 @@ interface RestartServerResponse {
  * @property {number} server_id - Numeric id of the server.
  * @property {number} server_storage - New size for the block storage.
  */
-interface ScaleBlockStorageRequest {
+export interface ScaleBlockStorageRequest {
   server_id: number;
   server_storage: number;
 }
@@ -385,7 +385,7 @@ interface ScaleBlockStorageRequest {
  * Interface for the response received when scaling block storage.
  * @property {number} operation_id - Operation identifier for the storage scaling operation.
  */
-interface ScaleBlockStorageResponse {
+export interface ScaleBlockStorageResponse {
   operation_id: number;
 }
 
@@ -396,7 +396,7 @@ interface ScaleBlockStorageResponse {
  * @property {number} volume_size - New size for the volume.
  * @property {string} volume_type - Type of the volume.
  */
-interface ScaleVolumeSizeRequest {
+export interface ScaleVolumeSizeRequest {
   server_id: number;
   volume_size: number;
   volume_type: string;
@@ -407,7 +407,7 @@ interface ScaleVolumeSizeRequest {
  * Interface for the response received when changing volume size.
  * @property {number} operation_id - Operation identifier for the volume scaling operation.
  */
-interface ScaleVolumeSizeResponse {
+export interface ScaleVolumeSizeResponse {
   operation_id: number;
 }
 
@@ -422,7 +422,7 @@ interface ScaleVolumeSizeResponse {
  * @property {boolean} is_cpu_downscale - Enable/disable CPU Auto Downscale.
  * @property {boolean} is_mem_downscale - Enable/disable Memory Auto Downscale.
  */
-interface SetAutoscalePolicyRequest {
+export interface SetAutoscalePolicyRequest {
   server_id: number;
   cpu: boolean;
   cpu_max: number;
@@ -437,7 +437,7 @@ interface SetAutoscalePolicyRequest {
  * Interface for the response received when setting autoscale policy.
  * An empty object indicates a successful operation.
  */
-interface SetAutoscalePolicyResponse {
+export interface SetAutoscalePolicyResponse {
   // Intentionally left empty.
 }
 
@@ -446,7 +446,7 @@ interface SetAutoscalePolicyResponse {
  * Interface for the parameters required to start a server.
  * @property {number} server_id - Numeric ID of the server to be started.
  */
-interface StartServerRequest {
+export interface StartServerRequest {
   server_id: number;
 }
 
@@ -455,7 +455,7 @@ interface StartServerRequest {
  * Interface for the response received when starting a server.
  * @property {number} operation_id - Operation identifier for the server start operation.
  */
-interface StartServerResponse {
+export interface StartServerResponse {
   operation_id: number;
 }
 
@@ -464,7 +464,7 @@ interface StartServerResponse {
  * Interface for the parameters required to stop a server.
  * @property {number} server_id - Numeric ID of the server to be stopped.
  */
-interface StopServerRequest {
+export interface StopServerRequest {
   server_id: number;
 }
 
@@ -473,7 +473,7 @@ interface StopServerRequest {
  * Interface for the response received when stopping a server.
  * @property {number} operation_id - Operation identifier for the server stop operation.
  */
-interface StopServerResponse {
+export interface StopServerResponse {
   operation_id: number;
 }
 
@@ -483,7 +483,7 @@ interface StopServerResponse {
  * @property {number} serverId - Numeric ID of the server to be updated.
  * @property {string} label - New label for the server.
  */
-interface UpdateServerLabelRequest {
+export interface UpdateServerLabelRequest {
   serverId: number;
   label: string;
 }
@@ -493,7 +493,7 @@ interface UpdateServerLabelRequest {
  * Interface for the response received when updating a server's label.
  * @property {boolean} status - Indicates whether the operation was successful.
  */
-interface UpdateServerLabelResponse {
+export interface UpdateServerLabelResponse {
   status: boolean;
 }
 
@@ -503,7 +503,7 @@ interface UpdateServerLabelResponse {
  * @property {number} server_id - Numeric ID of the server to be upgraded.
  * @property {string} instance_type - New instance type for the server (e.g., 512MB, Small).
  */
-interface UpgradeServerRequest {
+export interface UpgradeServerRequest {
   server_id: number;
   instance_type: string;
 }
@@ -513,7 +513,7 @@ interface UpgradeServerRequest {
  * Interface for the response received when upgrading a server.
  * @property {number} operation_id - Operation identifier for the server upgrade operation.
  */
-interface UpgradeServerResponse {
+export interface UpgradeServerResponse {
   operation_id: number;
 }
 
