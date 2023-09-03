@@ -1,14 +1,14 @@
 import { apiCall, HttpMethod } from "../auth";
 
 /**
- * @interface StartAddAppPayload
+ * @interface AddAppPayload
  * @description Interface for payload needed to start the add app process.
  * @property {number} server_id - Numeric ID of the server.
  * @property {string} application - Type of application to be installed (e.g., wordpress, joomla).
  * @property {string} app_label - Name of the app.
  * @property {string} project_name - Optional name of the project.
  */
-export interface StartAddAppPayload {
+export interface AddAppPayload {
   server_id: number;
   application: string;
   app_label: string;
@@ -16,18 +16,18 @@ export interface StartAddAppPayload {
 }
 
 /**
- * @interface StartAddAppResponse
+ * @interface AddAppResponse
  * @description Interface for the response when starting the add app process.
  * @property {number} operation_id - Operation ID.
  */
-export interface StartAddAppResponse {
+export interface AddAppResponse {
   operation_id: number;
 }
 
 /**
- * Start the add app process.
- * @param {StartAddAppPayload} payload - The payload for starting the add app process.
- * @returns {Promise<StartAddAppResponse>} - A promise that resolves to an object containing the operation ID.
+ *  the add app process.
+ * @param {AddAppPayload} payload - The payload for starting the add app process.
+ * @returns {Promise<AddAppResponse>} - A promise that resolves to an object containing the operation ID.
  */
 
 /**
@@ -220,10 +220,8 @@ export async function cloneApp(
 }
 
 // Function to start adding an app
-export async function addApp(
-  payload: StartAddAppPayload
-): Promise<StartAddAppResponse> {
+export async function addApp(payload: AddAppPayload): Promise<AddAppResponse> {
   const endpoint = "https://api.cloudways.com/api/v1/app";
   const response = await apiCall(endpoint, HttpMethod.POST, payload);
-  return response as StartAddAppResponse;
+  return response as AddAppResponse;
 }
