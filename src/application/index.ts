@@ -8,7 +8,7 @@ import { apiCall, HttpMethod } from "../auth";
  * @property {string} app_label - Name of the app.
  * @property {string} project_name - Optional name of the project.
  */
-interface StartAddAppPayload {
+export interface StartAddAppPayload {
   server_id: number;
   application: string;
   app_label: string;
@@ -20,7 +20,7 @@ interface StartAddAppPayload {
  * @description Interface for the response when starting the add app process.
  * @property {number} operation_id - Operation ID.
  */
-interface StartAddAppResponse {
+export interface StartAddAppResponse {
   operation_id: number;
 }
 
@@ -37,7 +37,7 @@ interface StartAddAppResponse {
  * @property {number} app_id - Numeric ID of the application.
  * @property {string} app_label - Name of the app.
  */
-interface CloneAppPayload {
+export interface CloneAppPayload {
   server_id: number;
   app_id: number;
   app_label: string;
@@ -49,7 +49,7 @@ interface CloneAppPayload {
  * @property {number} app_id - New App ID.
  * @property {number} operation_id - Operation ID.
  */
-interface CloneAppResponse {
+export interface CloneAppResponse {
   app_id: number;
   operation_id: number;
 }
@@ -67,7 +67,7 @@ interface CloneAppResponse {
  * @property {number} app_id - Numeric ID of the application to be cloned.
  * @property {number} destination_server_id - Numeric ID of the server where the application will be cloned.
  */
-interface CloneAppToOtherServerPayload {
+export interface CloneAppToOtherServerPayload {
   server_id: number;
   app_id: number;
   destination_server_id: number;
@@ -80,7 +80,7 @@ interface CloneAppToOtherServerPayload {
  * @property {number} destination_operation_id - Destination Operation ID.
  * @property {number} app_id - New App ID.
  */
-interface CloneAppToOtherServerResponse {
+export interface CloneAppToOtherServerResponse {
   source_operation_id: number;
   destination_operation_id: number;
   app_id: number;
@@ -114,7 +114,7 @@ interface CloneAppToOtherServerResponse {
  * @property {number} server_id - Numeric ID of the server.
  * @property {number} appId - Numeric ID of the application to be removed.
  */
-interface DeleteAppPayload {
+export interface DeleteAppPayload {
   server_id: number;
   appId: number;
 }
@@ -124,7 +124,7 @@ interface DeleteAppPayload {
  * @description Interface for the response when starting the remove app operation.
  * @property {number} operation_id - Operation ID.
  */
-interface DeleteAppResponse {
+export interface DeleteAppResponse {
   operation_id: number;
 }
 
@@ -141,7 +141,7 @@ interface DeleteAppResponse {
  * @property {number} server_id - Numeric ID of the server.
  * @property {string} label - New label of the application.
  */
-interface UpdateAppLabelPayload {
+export interface UpdateAppLabelPayload {
   appId: number;
   server_id: number;
   label: string;
@@ -152,7 +152,7 @@ interface UpdateAppLabelPayload {
  * @description Interface for the response when updating the app label.
  * @property {boolean} status - Operation status.
  */
-interface UpdateAppLabelResponse {
+export interface UpdateAppLabelResponse {
   status: boolean;
 }
 
@@ -220,7 +220,7 @@ export async function cloneApp(
 }
 
 // Function to start adding an app
-export async function startAddApp(
+export async function addApp(
   payload: StartAddAppPayload
 ): Promise<StartAddAppResponse> {
   const endpoint = "https://api.cloudways.com/api/v1/app";
