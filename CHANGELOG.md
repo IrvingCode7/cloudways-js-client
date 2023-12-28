@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.33
+
+### Patch Changes
+
+- 5df8550: added build in github
+
 ## 0.0.32
 
 ### Patch Changes
