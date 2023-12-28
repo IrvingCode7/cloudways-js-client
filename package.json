@@ -20,7 +20,7 @@
   },
   "scripts": {
     "build": "node build.js",
-    "release": "pnpm run build && changeset publish",
+    "release": "npm run build && changeset publish",
     "lint": "tsc"
   },
   "keywords": [
