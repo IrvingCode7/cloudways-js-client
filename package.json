@@ -2,7 +2,7 @@
   "name": "cloudways-js-client",
   "repository": {
     "type": "git",
-    "url": "https://github.com/code-gio/cloudways-js-client.git"
+    "url": "git+https://github.com/code-gio/cloudways-js-client.git"
   },
   "version": "0.0.30",
   "description": "A client library to power your applications with Cloudways API",
