@@ -35,7 +35,7 @@ async function getNewToken(): Promise<void> {
 
   try {
     const response: AxiosResponse = await axios.post(
-      "/oauth/access_token",
+      "https://api.cloudways.com/api/v1/oauth/access_token",
       config
     );
 
