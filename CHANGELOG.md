@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.31
+
+### Patch Changes
+
+- 9ca78dc: Added the projects services
+
 ## 0.0.30
 
 ### Patch Changes
