@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.32
+
+### Patch Changes
+
+- dc0d646: change changeset config to public
+
 ## 0.0.31
 
 ### Patch Changes

@@ -4,7 +4,7 @@
     "type": "git",
     "url": "git+https://github.com/code-gio/cloudways-js-client.git"
   },
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "A client library to power your applications with Cloudways API",
   "exports": {
     "./core": {
