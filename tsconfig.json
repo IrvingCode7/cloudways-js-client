@@ -4,23 +4,18 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "es2022",
+    "verbatimModuleSyntax": true,
     "allowJs": true,
     "resolveJsonModule": true,
+    "moduleDetection": "force",
     /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
-    /* Module Resolution */
-    "moduleResolution": "node", // Adjust this to "node"
-    "module": "commonjs", // And this to "commonjs" if you're targeting a Node environment
+    /* If NOT transpiling with TypeScript: */
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
     "noEmit": true,
-    /* Include DOM libraries only if your environment has a DOM */
+    /* If your code runs in the DOM: */
     "lib": ["es2022", "dom", "dom.iterable"],
-  },
-  "include": [
-    "src/**/*" // Adjust to include the directory of your source files
-  ],
-  "exclude": [
-    "node_modules",
-    "dist" // Exclude dist if you don't want TypeScript to type-check files in dist
-  ]
+  }
 }

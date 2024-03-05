@@ -6,20 +6,11 @@
   },
   "version": "0.0.33",
   "description": "A client library to power your applications with Cloudways API",
-  "exports": {
-    "./core": {
-      "require": "./dist/core/index.js",
-      "import": "./dist/core/index.mjs",
-      "types": "./dist/core/index.d.ts"
-    },
-    "./lists": {
-      "require": "./dist/lists/index.js",
-      "import": "./dist/lists/index.mjs",
-      "types": "./dist/lists/index.d.ts"
-    }
-  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "node build.js",
+    "build": "tsup index.ts --format cjs,esm --dts",
     "release": "npm run build && changeset publish",
     "lint": "tsc"
   },
