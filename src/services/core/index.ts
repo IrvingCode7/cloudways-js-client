@@ -17,10 +17,15 @@ let authToken: AuthToken | null = null;
  * sets up the necessary credentials for subsequent API calls. It accepts the user's
  * email address and an API key generated from the Cloudways platform.
  *
+ * This function should be called once to configure the library. After initial setup,
+ * the library will automatically handle token renewal, ensuring continued access
+ * to the Cloudways API without needing to reinitialize or manually refresh tokens.
+ *
  * @param {string} email - The email address used to access the Cloudways Platform.
  * @param {string} apiKey - The API key generated on the Cloudways Platform API Section.
  * @returns {void}
  */
+
 export function initializeCloudwaysApi(email: string, apiKey: string): void {
   config = { email, api_key: apiKey };
 }
