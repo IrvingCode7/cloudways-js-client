@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.37
+
+### Patch Changes
+
+- 974252a: fixed all the list functions
+
 ## 0.0.36
 
 ### Patch Changes
