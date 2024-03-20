@@ -1,5 +1,12 @@
 # cloudways-js-client
 
+## 0.0.34
+
+### Patch Changes
+
+- 0912c44: change build process
+- 14b6a27: Updated the build process to import cloudways services
+
 ## 0.0.33
 
 ### Patch Changes
