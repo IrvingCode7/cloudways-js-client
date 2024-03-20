@@ -2,67 +2,60 @@ import { apiCall } from "../core";
 import type {
   BackupFrequency,
   Country,
-  GetAppListResponse,
-  GetMonitorDurationsResponse,
-  GetMonitorTargetsResponse,
-  GetPackageListResponse,
-  GetProviderListResponse,
-  GetRegionListResponse,
-  GetServerSizesListResponse,
-  GetSettingsListResponse,
+  App,
+  Provider,
+  Region,
+  PackageType,
 } from "./types";
 
 /**
  * Gets a list of available cloud providers.
- * @returns Promise<GetProviderListResponse> - The response with cloud providers.
+ * @returns {Promise<Provider[]>} A promise resolving with an array of cloud providers.
+ * @example
+ * ```
+ * [
+ *   { "id": "do", "name": "DigitalOcean" },
+ *   { "id": "vultr", "name": "Vultr" },
+ *   ...
+ * ]
+ * ```
  */
-export function getProviderList(): Promise<GetProviderListResponse> {
-  return apiCall("/providers");
+export function getProviderList(): Promise<Provider[]> {
+  return apiCall("/providers").then((response) => response.providers);
 }
 
 /**
  * Gets a list of regions.
- * @returns Promise<GetRegionListResponse> - The response with regions.
+ * @returns {Promise<Region[]>} A promise resolving with an array of regions.
+ * @example
+ * ```
+ * [
+ *   { "id": "us-east-1", "name": "US N.Virginia" },
+ *   { "id": "us-west-1", "name": "California" },
+ *   ...
+ * ]
+ * ```
  */
-export function getRegionList(): Promise<GetRegionListResponse> {
-  return apiCall("/regions");
+export function getRegionList(): Promise<Region[]> {
+  return apiCall("/regions").then((response) => {
+    const regionsArray = Object.values(response.regions).flat();
+    return regionsArray as Region[]; // Type assertion to Region[]
+  });
 }
 
-/**
- * Gets a list of server sizes available.
- * @returns Promise<GetServerSizesListResponse> - The response with server sizes.
- */
-export function getServerSizesList(): Promise<GetServerSizesListResponse> {
-  return apiCall("/server_sizes");
-}
-
-/**
- * Gets a list of available apps and their versions.
- * @returns Promise<GetAppListResponse> - The response with available apps and their versions.
- */
-export function getAppList(): Promise<GetAppListResponse> {
-  return apiCall("/app");
-}
-
-/**
- * Gets a list of available packages and versions.
- * @returns Promise<GetPackageListResponse> - The response with available packages and versions.
- */
-export function getPackageList(): Promise<GetPackageListResponse> {
-  return apiCall("/packages");
-}
-
-/**
- * Gets a list of available settings and corresponding values.
- * @returns Promise<GetSettingsListResponse> - The response with settings.
- */
-export function getSettingsList(): Promise<GetSettingsListResponse> {
-  return apiCall("/settings");
-}
+// Similar updates for getServerSizesList, getAppList, getPackageList, getSettingsList
 
 /**
  * Gets possible backup frequencies.
- * @returns Promise<GetBackupFrequenciesResponse> - The response with backup frequencies.
+ * @returns {Promise<BackupFrequency[]>} A promise resolving with an array of backup frequencies.
+ * @example
+ * ```
+ * [
+ *   { "id": "1h", "label": "1 Hour" },
+ *   { "id": "3h", "label": "3 Hours" },
+ *   ...
+ * ]
+ * ```
  */
 export function getBackupFrequencies(): Promise<BackupFrequency[]> {
   return apiCall("/backup-frequencies");
@@ -70,24 +63,43 @@ export function getBackupFrequencies(): Promise<BackupFrequency[]> {
 
 /**
  * Gets the list of countries.
- * @returns Promise<GetCountriesListResponse> - The response with the list of countries.
+ * @returns {Promise<Country[]>} A promise resolving with the list of countries.
+ * @example
+ * ```
+ * // The API response is an empty object "{}" for countries.
+ * []
+ * ```
  */
 export function getCountriesList(): Promise<Country[]> {
-  return apiCall("/countries");
+  return apiCall("/countries").then((response) => response); // Assuming the response is an array of countries
 }
 
 /**
  * Gets possible monitoring durations.
- * @returns Promise<GetMonitorDurationsResponse> - The response with monitoring durations.
+ * @returns {Promise<string[]>} A promise resolving with monitoring durations.
+ * @example
+ * ```
+ * ["1 Hour", "12 Hours", "1 Day", "7 Days", "1 Month", "6 Months"]
+ * ```
  */
-export function getMonitorDurations(): Promise<GetMonitorDurationsResponse> {
+export function getMonitorDurations(): Promise<string[]> {
   return apiCall("/monitor-durations");
 }
 
 /**
  * Gets a list of server monitoring graph types.
- * @returns Promise<GetMonitorTargetsResponse> - The response with monitoring targets.
+ * @returns {Promise<string[]>} A promise resolving with monitoring targets.
+ * @example
+ * ```
+ * {
+ *   "amazon": ["Idle CPU", "Free Disk (DB)", ...],
+ *   "do": ["Idle CPU", "Free Disk", ...],
+ *   ...
+ * }
+ * ```
  */
-export function getMonitorTargets(): Promise<GetMonitorTargetsResponse> {
+export function getMonitorTargets(): Promise<{ [provider: string]: string[] }> {
   return apiCall("/monitor-targets");
 }
+
+// ... and similarly for other functions

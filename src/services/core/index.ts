@@ -13,11 +13,16 @@ let config: GetOAuthAccessTokenRequest = {
 let authToken: AuthToken | null = null;
 
 /**
- * Initialize the Cloudways API with user configuration.
- * @param userConfig - User configuration for Cloudways API access.
+ * Initializes the Cloudways API with user-provided configuration. This function
+ * sets up the necessary credentials for subsequent API calls. It accepts the user's
+ * email address and an API key generated from the Cloudways platform.
+ *
+ * @param {string} email - The email address used to access the Cloudways Platform.
+ * @param {string} apiKey - The API key generated on the Cloudways Platform API Section.
+ * @returns {void}
  */
-export function initializeCloudwaysApi(userConfig: GetOAuthAccessTokenRequest) {
-  config = userConfig;
+export function initializeCloudwaysApi(email: string, apiKey: string): void {
+  config = { email, api_key: apiKey };
 }
 
 /**
@@ -44,7 +49,11 @@ async function getNewToken(): Promise<void> {
       expiration: Date.now() + (response.data.expires_in - 300) * 1000,
     };
   } catch (error) {
-    throw new Error("Error getting new token: " + error);
+    throw new Error(
+      `Error getting new token: ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    );
   }
 }
 
@@ -80,6 +89,10 @@ export async function apiCall(
     });
     return response.data;
   } catch (error) {
-    throw new Error("API call failed: " + error);
+    throw new Error(
+      `API call failed: ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    );
   }
 }
