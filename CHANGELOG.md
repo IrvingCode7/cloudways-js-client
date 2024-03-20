@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.38
+
+### Patch Changes
+
+- 5720337: added server and applications services
+
 ## 0.0.37
 
 ### Patch Changes
