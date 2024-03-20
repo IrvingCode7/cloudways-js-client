@@ -2,17 +2,18 @@ import { apiCall } from "../core";
 import type {
   BackupFrequency,
   Country,
-  App,
+  AppInfo,
   Provider,
   Region,
   PackageList,
   ServerSize,
   Setting,
+  ServerMonitoringTarget,
 } from "./types";
 
 /**
  * Gets a list of available apps and their versions.
- * @returns {Promise<App[]>} A promise resolving with an array of apps and their versions.
+ * @returns {Promise<AppInfo[]>} A promise resolving with an array of apps and their versions.
  * @example
  * ```
  * [
@@ -34,7 +35,7 @@ import type {
  * ]
  * ```
  */
-export function getAppList(): Promise<App[]> {
+export function getAppList(): Promise<AppInfo[]> {
   return apiCall("/apps");
 }
 
@@ -78,23 +79,32 @@ export function getCountriesList(): Promise<Country[]> {
  * ```
  */
 export function getMonitorDurations(): Promise<string[]> {
-  return apiCall("/monitor_durations");
+  return apiCall("/monitor_durations").then((response) => response.durations);
 }
 
 /**
  * Gets a list of server monitoring graph types.
- * @returns {Promise<string[]>} A promise resolving with monitoring targets.
+ * @returns {Promise<ServerMonitoringTarget[]>} A promise resolving with monitoring targets for each provider.
  * @example
  * ```
- * {
- *   "amazon": ["Idle CPU", "Free Disk (DB)", ...],
- *   "do": ["Idle CPU", "Free Disk", ...],
+ * [
+ *   { provider: "amazon", targets: ["Idle CPU", "Free Disk (DB)", ...] },
+ *   { provider: "do", targets: ["Idle CPU", "Free Disk", ...] },
  *   ...
- * }
+ * ]
  * ```
  */
-export function getMonitorTargets(): Promise<{ [provider: string]: string[] }> {
-  return apiCall("/monitor_targets");
+export function getMonitorTargets(): Promise<ServerMonitoringTarget[]> {
+  return apiCall("/monitor_targets").then((response) => {
+    const monitorTargetsList: ServerMonitoringTarget[] = [];
+    for (const provider in response) {
+      monitorTargetsList.push({
+        provider: provider,
+        targets: response[provider],
+      });
+    }
+    return monitorTargetsList;
+  });
 }
 
 /**

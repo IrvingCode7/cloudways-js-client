@@ -50,7 +50,7 @@ export interface AppVersion {
 /**
  * Represents an app with its versions.
  */
-export interface App {
+export interface AppInfo {
   label: string;
   versions: AppVersion[];
 }
@@ -59,7 +59,7 @@ export interface App {
  * Represents the response for getting a list of apps.
  */
 export interface GetAppListResponse {
-  [appName: string]: App;
+  [appName: string]: AppInfo;
 }
 
 /**
@@ -140,4 +140,12 @@ export interface ServerSize {
 export interface Setting {
   setting: string;
   values: string[];
+}
+
+/**
+ * Represents a server monitoring target for a provider.
+ */
+export interface ServerMonitoringTarget {
+  provider: string;
+  targets: string[];
 }
