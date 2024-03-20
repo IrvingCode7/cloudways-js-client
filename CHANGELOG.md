@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.35
+
+### Patch Changes
+
+- fc9a9cb: updated the jsdoc documentation
+
 ## 0.0.34
 
 ### Patch Changes
