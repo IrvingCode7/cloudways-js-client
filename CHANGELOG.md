@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.36
+
+### Patch Changes
+
+- 76e5f0f: added operation api service
+
 ## 0.0.35
 
 ### Patch Changes
