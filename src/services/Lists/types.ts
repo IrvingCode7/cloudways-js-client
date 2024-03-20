@@ -63,25 +63,18 @@ export interface GetAppListResponse {
 }
 
 /**
- * Represents the versions of a specific package.
+ * Represents a package with its versions.
  */
-export interface PackageVersions {
+interface Package {
   [version: string]: string;
 }
 
 /**
- * Represents a package type with its versions.
+ * Represents a list of available packages and versions.
  */
-export interface PackageType {
-  [osVersion: string]: PackageVersions;
-}
-
-/**
- * Represents the response for getting a list of packages.
- */
-export interface GetPackageListResponse {
-  packages: {
-    [packageName: string]: PackageType;
+export interface PackageList {
+  [packageName: string]: {
+    [os: string]: Package;
   };
 }
 
@@ -131,4 +124,20 @@ export interface GetMonitorTargetsResponse {
   targets: {
     [provider: string]: string[];
   };
+}
+
+/**
+ * Represents a server size entry for a provider.
+ */
+export interface ServerSize {
+  provider: string;
+  sizes: string[];
+}
+
+/**
+ * Represents a setting entry and its possible values.
+ */
+export interface Setting {
+  setting: string;
+  values: string[];
 }
