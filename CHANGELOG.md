@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.41
+
+### Patch Changes
+
+- 751eb08: updated readme file
+
 ## 0.0.40
 
 ### Patch Changes
