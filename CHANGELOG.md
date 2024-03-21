@@ -1,5 +1,12 @@
 # cloudways-js-client
 
+## 0.0.39
+
+### Patch Changes
+
+- 59abf1c: updated read me file
+- 44a3faa: added ssh key services
+
 ## 0.0.38
 
 ### Patch Changes
