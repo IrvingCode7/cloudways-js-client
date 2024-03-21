@@ -6,6 +6,8 @@ export * from "./services/operation";
 export * from "./services/application";
 export * from "./services/server";
 export * from "./services/ssh-keys";
+export * from "./services/monitor-analytic";
+export * from "./services/knowledge-base";
 
 // export all the types
 export * from "./services/Lists/types";
