@@ -36,28 +36,61 @@ Please note that this library is still under development. Although it's function
 <pre><code>npm install cloudways-js-client
 </code></pre>
 
-<h2>Usage</h2>
+    <h2>Usage</h2>
+    <p>The Cloudways JS Client library makes it easy to interact with the Cloudways API for various operations. Below are some examples to help you get started.</p>
 
-<p>
-  To get you started, here's an example that demonstrates how to get the status of a background operation using the "Get Operation Status" function:
-</p>
+    <h3>Initializing the API</h3>
+    <p>Before performing any operations, initialize the API with your Cloudways account credentials:</p>
+    <div class="code-title">JavaScript:</div>
+    <pre><code>import { initializeCloudwaysApi } from 'cloudways-js-client';
 
-<pre><code>import { getOperationStatus, GetOperationStatusRequest } from 'cloudways-js-client';
+const email = 'your_email@example.com'; // Replace with your Cloudways account email
+const apiKey = 'your_api_key'; // Replace with your Cloudways API key
 
-const payload: GetOperationStatusRequest = {
-  id: 123456 // Replace with the operation ID you have
-};
+initializeCloudwaysApi(email, apiKey);
+</code></pre>
 
-async function fetchOperationStatus() {
-  try {
-    const response = await getOperationStatus(payload);
-    console.log("Operation Status:", response.operation);
-  } catch (error) {
-    console.error("Error fetching operation status:", error);
-  }
+    <h3>Deleting a Server</h3>
+    <p>To delete a server, use the <code>deleteServer</code> function. Ensure you have the correct server ID:</p>
+    <div class="code-title">JavaScript:</div>
+    <pre><code>import { deleteServer } from 'cloudways-js-client';
+
+async function deleteServerA() {
+const serverId = 12345; // Replace with the server ID you want to delete
+await deleteServer(serverId);
+console.log('Server deleted successfully.');
+}
+</code></pre>
+
+    <h3>Getting the List of Servers</h3>
+    <p>You can retrieve the list of servers associated with your account using the <code>getServersList</code> function:</p>
+    <div class="code-title">JavaScript:</div>
+    <pre><code>import { getServersList } from 'cloudways-js-client';
+
+async function listServers() {
+try {
+const servers = await getServersList();
+console.log('Servers List:', servers);
+} catch (error) {
+console.error('Error fetching servers list:', error);
+}
 }
 
-fetchOperationStatus();
+listServers();
+</code></pre>
+
+    <h3>Combining Operations</h3>
+    <p>You can combine these functions to perform multiple operations. For example, to delete a server and then get the updated list of servers:</p>
+    <div class="code-title">JavaScript:</div>
+    <pre><code>async function deleteServerAndGetList() {
+
+const serverId = 12345; // Replace with the server ID to delete
+await deleteServer(serverId);
+console.log('Server deleted successfully.');
+console.log('Updated Servers List:', await getServersList());
+}
+
+deleteServerAndGetList();
 </code></pre>
 
 <p>For detailed usage examples and API documentation, please refer to the <a href="https://developers.cloudways.com/docs/">documentation</a>.</p>
