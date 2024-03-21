@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.42
+
+### Patch Changes
+
+- 1de492c: added monitor analytics
+
 ## 0.0.41
 
 ### Patch Changes
