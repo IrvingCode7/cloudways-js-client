@@ -36,13 +36,12 @@ Please note that this library is still under development. Although it's function
 <pre><code>npm install cloudways-js-client
 </code></pre>
 
-    <h2>Usage</h2>
-    <p>The Cloudways JS Client library makes it easy to interact with the Cloudways API for various operations. Below are some examples to help you get started.</p>
+<h2>Usage</h2>
 
-    <h3>Initializing the API</h3>
+<p>The Cloudways JS Client library makes it easy to interact with the Cloudways API for various operations. Below are some examples to help you get started.</p>  <h3>Initializing the API</h3>
     <p>Before performing any operations, initialize the API with your Cloudways account credentials:</p>
     <div class="code-title">JavaScript:</div>
-    <pre><code>import { initializeCloudwaysApi } from 'cloudways-js-client';
+ <pre><code>import { initializeCloudwaysApi } from 'cloudways-js-client';
 
 const email = 'your_email@example.com'; // Replace with your Cloudways account email
 const apiKey = 'your_api_key'; // Replace with your Cloudways API key
@@ -50,22 +49,23 @@ const apiKey = 'your_api_key'; // Replace with your Cloudways API key
 initializeCloudwaysApi(email, apiKey);
 </code></pre>
 
-    <h3>Deleting a Server</h3>
-    <p>To delete a server, use the <code>deleteServer</code> function. Ensure you have the correct server ID:</p>
+ <h3>Deleting a Server</h3>
+ <p>To delete a server, use the <code>deleteServer</code> function. Ensure you have the correct server ID:</p>
     <div class="code-title">JavaScript:</div>
-    <pre><code>import { deleteServer } from 'cloudways-js-client';
+
+ <pre><code>import { deleteServer } from 'cloudways-js-client';
 
 async function deleteServerA() {
-const serverId = 12345; // Replace with the server ID you want to delete
-await deleteServer(serverId);
-console.log('Server deleted successfully.');
+  const serverId = 12345; // Replace with the server ID you want to delete
+  await deleteServer(serverId);
+  console.log('Server deleted successfully.');
 }
 </code></pre>
 
-    <h3>Getting the List of Servers</h3>
-    <p>You can retrieve the list of servers associated with your account using the <code>getServersList</code> function:</p>
+  <h3>Getting the List of Servers</h3>
+   <p>You can retrieve the list of servers associated with your account using the <code>getServersList</code> function:</p>
     <div class="code-title">JavaScript:</div>
-    <pre><code>import { getServersList } from 'cloudways-js-client';
+<pre><code>import { getServersList } from 'cloudways-js-client';
 
 async function listServers() {
 try {
@@ -79,9 +79,10 @@ console.error('Error fetching servers list:', error);
 listServers();
 </code></pre>
 
-    <h3>Combining Operations</h3>
+  <h3>Combining Operations</h3>
     <p>You can combine these functions to perform multiple operations. For example, to delete a server and then get the updated list of servers:</p>
     <div class="code-title">JavaScript:</div>
+
     <pre><code>async function deleteServerAndGetList() {
 
 const serverId = 12345; // Replace with the server ID to delete
@@ -92,12 +93,6 @@ console.log('Updated Servers List:', await getServersList());
 
 deleteServerAndGetList();
 </code></pre>
-
-<p>For detailed usage examples and API documentation, please refer to the <a href="https://developers.cloudways.com/docs/">documentation</a>.</p>
-
-<h2>Contributing</h2>
-
-<p>Contributions are welcome! Please follow the <a href="https://github.com/code-gio/cloudways-js-client/blob/main/CONTRIBUTING.md">contribution guidelines</a> when making contributions to this project.</p>
 
 <h2>Issues</h2>
 
