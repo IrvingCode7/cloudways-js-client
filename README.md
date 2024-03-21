@@ -83,7 +83,10 @@ listServers();
     <p>You can combine these functions to perform multiple operations. For example, to delete a server and then get the updated list of servers:</p>
     <div class="code-title">JavaScript:</div>
 
-    <pre><code>async function deleteServerAndGetList() {
+  <pre><code>
+  ```javascript
+
+  async function deleteServerAndGetList() {
 
 const serverId = 12345; // Replace with the server ID to delete
 await deleteServer(serverId);
@@ -92,6 +95,7 @@ console.log('Updated Servers List:', await getServersList());
 }
 
 deleteServerAndGetList();
+```
 </code></pre>
 
 <h2>Issues</h2>
