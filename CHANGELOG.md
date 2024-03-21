@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.40
+
+### Patch Changes
+
+- 8f2c4e3: updated read me file
+
 ## 0.0.39
 
 ### Patch Changes
