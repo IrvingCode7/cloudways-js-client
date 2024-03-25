@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.43
+
+### Patch Changes
+
+- fa5c6b9: updated get app list to be an array
+
 ## 0.0.42
 
 ### Patch Changes
