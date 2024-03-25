@@ -36,7 +36,16 @@ import type {
  * ```
  */
 export function getAppList(): Promise<AppInfo[]> {
-  return apiCall("/apps");
+  return apiCall("/apps").then((response) => {
+    const appList: AppInfo[] = [];
+    for (const app in response.apps) {
+      appList.push({
+        label: app,
+        versions: response.apps[app],
+      });
+    }
+    return appList;
+  });
 }
 
 /**
