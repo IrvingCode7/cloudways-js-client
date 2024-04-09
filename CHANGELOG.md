@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.44
+
+### Patch Changes
+
+- e982687: updated typescript
+
 ## 0.0.43
 
 ### Patch Changes
