@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosResponse } from "axios";
-import type { AuthToken, GetOAuthAccessTokenRequest } from "./types";
+import type { AuthToken, GetOAuthAccessTokenRequest} from "./types";
 import { HttpMethod } from "./types";
 
 /** Configuration for the Cloudways API */
@@ -101,3 +101,5 @@ export async function apiCall(
     );
   }
 }
+
+
