@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.45
+
+### Patch Changes
+
+- 1e37ffe: added all the services
+
 ## 0.0.44
 
 ### Patch Changes
