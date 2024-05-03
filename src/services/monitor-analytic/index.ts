@@ -1,5 +1,7 @@
 import { apiCall } from "../core";
 import { HttpMethod } from "../core/types";
+import { getAndWaitForOperationStatusCompleted } from "../operation";
+import type { OperationStatus } from "../operation/types";
 
 /**
  * Get server bandwidth usage or disk size per application.
@@ -23,15 +25,20 @@ export function getServerSummary(
 /**
  * Get server usage.
  * @param {number} serverId Numeric id of the server.
- * @returns {Promise<{ status: boolean, operation_id: string }>} A promise resolving with the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the operation id.
  */
-export function getServerUsage(
+export async function getServerUsage(
   serverId: number
-): Promise<{ status: boolean; operation_id: string }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
   };
-  return apiCall("/server/analytics/serverUsage", HttpMethod.GET, data);
+  const req = await apiCall(
+    "/server/analytics/serverUsage",
+    HttpMethod.GET,
+    data
+  );
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**

@@ -1,22 +1,7 @@
+import { sleep } from "../../utils";
 import { apiCall } from "../core";
 import { HttpMethod } from "../core/types";
-
-// Define an interface for the operation status response
-interface OperationStatus {
-  id: string;
-  type: string;
-  server_id: string;
-  estimated_time_remaining: string;
-  frontend_step_number: string;
-  status: string;
-  is_completed: string;
-  message: string;
-  app_id: string;
-}
-
-interface GetOperationStatusResponse {
-  operation: OperationStatus;
-}
+import type { GetOperationStatusResponse, OperationStatus } from "./types";
 
 /**
  * Gets the status of an operation that is running in the background.
@@ -40,8 +25,22 @@ interface GetOperationStatusResponse {
  * }
  * ```
  */
-export function getOperationStatus(id: number): Promise<OperationStatus> {
+export function getOperationStatus(id: string): Promise<OperationStatus> {
   return apiCall(`/operation/${id}`, HttpMethod.GET).then(
     (response: GetOperationStatusResponse) => response.operation
   );
+}
+
+export async function getAndWaitForOperationStatusCompleted(
+  operationId: string
+) {
+  let operationStatus = await getOperationStatus(operationId);
+  while (operationStatus.is_completed !== "1") {
+    const waitTime = operationStatus.estimated_time_remaining
+      ? parseInt(operationStatus.estimated_time_remaining) * 60000
+      : 5000;
+    await sleep(waitTime);
+    operationStatus = await getOperationStatus(operationId);
+  }
+  return operationStatus;
 }
