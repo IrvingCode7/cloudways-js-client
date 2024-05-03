@@ -1,5 +1,7 @@
 import { apiCall } from "../core";
 import { HttpMethod } from "../core/types";
+import { getAndWaitForOperationStatusCompleted } from "../operation";
+import type { OperationStatus } from "../operation/types";
 
 /**
  * Start the process of adding an app to a server.
@@ -15,21 +17,21 @@ import { HttpMethod } from "../core/types";
  *
  * ```
  */
-export function startAddAppProcess(
+export async function addApp(
   serverId: number,
   application: string,
   appLabel: string,
   projectName?: string
-): Promise<number> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     application: application,
     app_label: appLabel,
     project_name: projectName || "",
   };
-  return apiCall("/app", HttpMethod.POST, data).then(
-    (response) => response.operation_id
-  );
+
+  const req = await apiCall("/app", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -46,20 +48,18 @@ export function startAddAppProcess(
  * }
  * ```
  */
-export function cloneApp(
+export async function cloneApp(
   serverId: number,
   appId: number,
   appLabel: string
-): Promise<{ appId: number; operationId: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     app_label: appLabel,
   };
-  return apiCall("/app/clone", HttpMethod.POST, data).then((response) => ({
-    appId: response.app_id,
-    operationId: response.operation_id,
-  }));
+  const req = await apiCall("/app/clone", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
