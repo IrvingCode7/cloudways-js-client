@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.46
+
+### Patch Changes
+
+- f2ea5b5: added handler for operation Id
+
 ## 0.0.45
 
 ### Patch Changes
