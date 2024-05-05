@@ -1,7 +1,8 @@
 import { apiCall } from "../core";
 import { HttpMethod } from "../core/types";
 import type { gitDeploymentHistoryResponse } from "./types";
-
+import { getAndWaitForOperationStatusCompleted } from "../operation";
+import type { OperationStatus } from "../operation/types";
 /**
  * Generates a SSH key for Git on the specified server and application.
  *
@@ -105,19 +106,19 @@ export function getGitSsh(
  * @param {string} git_url - The Git repository URL.
  * @param {string} branch_name - The name of the branch to clone.
  * @param {string} deploy_path - The path where the repository will be deployed.
- * @returns {Promise<{ operation_id: number }>} A Promise that resolves to an object containing the operation ID.
+ * @returns {Promise<OperationStatus>} A Promise that resolves to an object containing the operation ID.
  * @example
  * {
   "operation_id" : 12345
 }
  */
-export function startGitClone(
+export async function startGitClone(
   serverId: number,
   appId: number,
   git_url: string,
   brach_name: string,
   deploy_path: string
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
@@ -125,9 +126,8 @@ export function startGitClone(
     brach_name: brach_name,
     deploy_path: deploy_path,
   };
-  return apiCall("/git/clone", HttpMethod.POST, data).then((response) => ({
-    operation_id: response.operation_id,
-  }));
+  const req = await apiCall("/git/clone", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -136,25 +136,24 @@ export function startGitClone(
  * @param {number} appId - The numeric ID of the application.
  * @param {string} branch_name - The name of the branch to pull.
  * @param {string} deploy_path - The path where the repository will be deployed.
- * @returns {Promise<{ operation_id: number }>} A Promise that resolves to an object containing the operation ID.
+ * @returns {Promise<OperationStatus>} A Promise that resolves to an object containing the operation ID.
  * @example
  * {
   "operation_id" : 12345
 }
  */
-export function startGitPull(
+export async function startGitPull(
   serverId: number,
   appId: number,
   brach_name: string,
   deploy_path: string
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     brach_name: brach_name,
     deploy_path: deploy_path,
   };
-  return apiCall("/git/pull", HttpMethod.POST, data).then((response) => ({
-    operation_id: response.operation_id,
-  }));
+  const req = await apiCall("/git/pull", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }

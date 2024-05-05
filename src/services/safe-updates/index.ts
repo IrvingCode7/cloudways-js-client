@@ -4,6 +4,8 @@ import type { getSafeUpdatesListResponse,
     SafeUpdatesSettings,
     SafeUpdatesShedule,
     SafeUpdatesHistory } from "./types"
+    import { getAndWaitForOperationStatusCompleted } from "../operation";
+    import type { OperationStatus } from "../operation/types";
 
 
 
@@ -11,23 +13,19 @@ import type { getSafeUpdatesListResponse,
  * Retrieves safe updates details for a specific server and application.
  * @param {number} server_id - The numeric ID of the server.
  * @param {number} app_id - The numeric ID of the application.
- * @returns {Promise<{ status: boolean, operation_id: number }>} A promise that resolves with the status and operation ID of the safe updates.
+ * @returns {Promise<OperationStatus>} A promise that resolves with the status and operation ID of the safe updates.
  * @example
  * {
       "status": true,
       "operation_id":12345
 } 
  */
-export function getSafeUpdatesDetail(
+export async function getSafeUpdatesDetail(
     server_id : number,
     app_id : number
-):Promise<{ status : boolean, operation_id : number}>{
-    return apiCall(`/app/safeupdates?server_id=${server_id}&app_id=${app_id}`, HttpMethod.GET).then(
-        (response) => ({
-            status : response.status,
-            operation_id : response.operation_id
-        })
-    )
+):Promise<OperationStatus>{
+    const req = await apiCall(`/app/safeupdates?server_id=${server_id}&app_id=${app_id}`, HttpMethod.GET);
+    return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 
@@ -38,20 +36,20 @@ export function getSafeUpdatesDetail(
  * @param {string} core - The version of the core to update.
  * @param {any[]} plugin - An array of plugins to update.
  * @param {any[]} theme - An array of themes to update.
- * @returns {Promise<{ status: boolean, operation_id: number }>} A promise that resolves with the status and operation ID of the safe updates.
+ * @returns {Promise<OperationStatus>} A promise that resolves with the status and operation ID of the safe updates.
  * @example
  * {
     "status": true,
     "operation_id":12345
   }
  */
-export function UpdateSafeupdates(
+export async function UpdateSafeupdates(
     server_id : number,
     app_id : number,
     core : string,
     plugin : any[],
     theme : any[]
-):Promise<{ status : boolean, operation_id : number}>{
+):Promise<OperationStatus>{
     const data = {
         server_id : server_id,
         app_id : app_id,
@@ -59,12 +57,8 @@ export function UpdateSafeupdates(
         plugin : plugin,
         theme : theme
     }
-    return apiCall(`/app/safeupdates/${app_id}`, HttpMethod.PUT, data).then(
-        (response) => ({
-            status : response.status,
-            operation_id : response.operation_id
-        })
-    )
+    const req = await apiCall(`/app/safeupdates/${app_id}`, HttpMethod.PUT, data);
+    return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 

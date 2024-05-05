@@ -1,7 +1,8 @@
 import { apiCall } from "../core";
 import { HttpMethod } from "../core/types";
 import type { DnsResponse } from "./types";
-
+import { getAndWaitForOperationStatusCompleted } from "../operation";
+import type { OperationStatus } from "../operation/types";
 /**
  * Allows access to Adminer on a specific server.
  * @param {number} serverId - The ID of the server where access to Adminer will be allowed.
@@ -271,19 +272,19 @@ export function verifyDns(
  * @param {string} sslEmail - The email attached to the Let's Encrypt SSL certificate.
  * @param {boolean} wildCard - Indicates whether the Let's Encrypt SSL certificate is a wildcard certificate.
  * @param {string[]} sslDomains - An array of domain names to be protected with Let's Encrypt SSL.
- * @returns {Promise<number>} A promise that resolves to the ID of the operation.
+ * @returns {Promise<OperationStatus>} A promise that resolves to the ID of the operation.
  * @example
  * ```{
   "operation_id" : 12345
     }```
  */
-export function installLetsEncrypt(
+export async function installLetsEncrypt(
   serverId: number,
   appId: number,
   sslEmail: string,
   wildCard: boolean,
   sslDomains: string[]
-): Promise<number> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
@@ -291,9 +292,8 @@ export function installLetsEncrypt(
     wild_card: wildCard,
     ssl_domains: sslDomains,
   };
-  return apiCall("/security/lets_encrypt_install", HttpMethod.POST, data).then(
-    (response) => response.operation_id
-  );
+  const req = await apiCall("/security/lets_encrypt_install", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 
@@ -304,27 +304,26 @@ export function installLetsEncrypt(
  * @param {number} appId - The ID of the application for which Let's Encrypt SSL will be renewed.
  * @param {boolean} wildCard - Indicates whether the Let's Encrypt SSL certificate is a wildcard certificate.
  * @param {string} domain - The domain name for which Let's Encrypt SSL will be renewed.
- * @returns {Promise<number>} A promise that resolves to the ID of the operation.
+ * @returns {Promise<OperationStatus>} A promise that resolves to the ID of the operation.
  * @example
  * ```{
   "operation_id" : 12345
     }```
  */
-export function renewLetsEncryptManually(
+export async function renewLetsEncryptManually(
     serverId: number,
     appId: number,
     wildCard: boolean,
     domain: string
-): Promise<number>{
+): Promise<OperationStatus>{
     const data ={
         server_id: serverId,
         app_id: appId,
         wild_card: wildCard,
         domain_name: domain,
     };
-    return apiCall("/security/lets_encrypt_manual_renew", HttpMethod.POST, data).then(
-        (response) => response.operation_id
-    )
+    const req = await apiCall("/security/lets_encrypt_manual_renew", HttpMethod.POST, data);
+    return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 
@@ -335,27 +334,26 @@ export function renewLetsEncryptManually(
  * @param {number} appId - The ID of the application for which Let's Encrypt SSL will be revoked.
  * @param {boolean} wildCard - Indicates whether the Let's Encrypt SSL certificate is a wildcard certificate.
  * @param {string} ssl_domain - The domain name for which Let's Encrypt SSL will be revoked.
- * @returns {Promise<number>} A promise that resolves to the ID of the operation.
+ * @returns {Promise<OperationStatus>} A promise that resolves to the ID of the operation.
  * @example
  * ```{
   "operation_id" : 12345
     }```
  */
-export function revokeLetsEncrypt(
+export async function revokeLetsEncrypt(
     serverId: number,
     appId: number,
     wildCard: boolean,
     ssl_domain: string
-): Promise<number>{
+): Promise<OperationStatus>{
     const data = {
         server_id: serverId,
         app_id: appId,
         wild_card: wildCard,
         Ssl_domain: ssl_domain,
     };
-    return apiCall("/security/lets_encrypt_revoke", HttpMethod.POST, data).then(
-        (response) => response.operation_id
-    )
+    const req = await apiCall("/security/lets_encrypt_revoke", HttpMethod.POST, data);
+    return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 
@@ -390,7 +388,7 @@ export function ownSslCertificate(
  * Removes a custom SSL certificate for a specified server and application.
  * @param {number} serverId - The ID of the server from which the custom SSL certificate will be removed.
  * @param {number} appId - The ID of the application for which the custom SSL certificate will be removed.
- * @returns {Promise<number>} A promise that resolves to the ID of the operation.
+ * @returns {Promise<OperationStatus>} A promise that resolves to the ID of the operation.
  * @example
  * ```
  * {
@@ -398,17 +396,16 @@ export function ownSslCertificate(
  * }
  * ```
  */
-export function removeOwnSslCertificate(
+export async function removeOwnSslCertificate(
     serverId : number,
     appId : number,
-):Promise<number>{
+):Promise<OperationStatus>{
     const data = {
         server_id : serverId,
         app_id : appId
     };
-    return apiCall("/security/removeCustomSSL", HttpMethod.DELETE, data).then(
-        (response) => response.operation_id
-    )
+    const req = await apiCall("/security/removeCustomSSL", HttpMethod.DELETE, data);
+    return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 

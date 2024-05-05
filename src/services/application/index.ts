@@ -9,7 +9,7 @@ import type { OperationStatus } from "../operation/types";
  * @param {string} application App to be installed (e.g., "wordpress", "joomla").
  * @param {string} appLabel Name of the app.
  * @param {string} projectName (Optional) Name of the project to tag the newly created app with.
- * @returns {Promise< number >} A promise resolving with the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the operation id.
  * @example
  * ```
  *
@@ -39,7 +39,7 @@ export async function addApp(
  * @param {number} serverId Numeric id of the server.
  * @param {number} appId Numeric id of the application.
  * @param {string} appLabel Name of the app.
- * @returns {Promise<{ appId: number, operationId: number }>} A promise resolving with the cloned app's id and operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the cloned app's id and operation id.
  * @example
  * ```
  * {
@@ -67,7 +67,7 @@ export async function cloneApp(
  * @param {number} serverId Numeric id of the source server.
  * @param {number} appId Numeric id of the application.
  * @param {number} destinationServerId Numeric id of the destination server.
- * @returns {Promise<{ sourceOperationId: number, destinationOperationId: number, appId: number }>} A promise resolving with the source and destination operation ids along with the cloned app's id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the source and destination operation ids along with the cloned app's id. 
  * @example
  * ```
  * {
@@ -77,34 +77,26 @@ export async function cloneApp(
  * }
  * ```
  */
-export function cloneAppToOtherServer(
+export async function cloneAppToOtherServer(
   serverId: number,
   appId: number,
   destinationServerId: number
-): Promise<{
-  sourceOperationId: number;
-  destinationOperationId: number;
-  appId: number;
-}> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     destination_server_id: destinationServerId,
   };
-  return apiCall("/app/cloneToOtherServer", HttpMethod.POST, data).then(
-    (response) => ({
-      sourceOperationId: response.source_operation_id,
-      destinationOperationId: response.destination_operation_id,
-      appId: response.app_id,
-    })
-  );
+  const req = await apiCall("/app/cloneToOtherServer", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
+
 }
 
 /**
  * Clone a staging app to the same server.
  * @param {number} serverId Numeric id of the server.
  * @param {number} appId Numeric id of the staging application.
- * @returns {Promise<{ appId: number, operationId: number }>} A promise resolving with the cloned staging app's id and operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the cloned staging app's id and operation id.
  * @example
  * ```
  * {
@@ -113,20 +105,16 @@ export function cloneAppToOtherServer(
  * }
  * ```
  */
-export function cloneStagingApp(
+export async function cloneStagingApp(
   serverId: number,
   appId: number
-): Promise<{ appId: number; operationId: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
   };
-  return apiCall("/staging/app/cloneApp", HttpMethod.POST, data).then(
-    (response) => ({
-      appId: response.app_id,
-      operationId: response.operation_id,
-    })
-  );
+  const req = await apiCall("/staging/app/cloneApp", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.destination_operation_id);
 }
 
 /**
@@ -134,7 +122,7 @@ export function cloneStagingApp(
  * @param {number} serverId Numeric id of the source server.
  * @param {number} appId Numeric id of the staging application.
  * @param {number} destinationServerId Numeric id of the destination server.
- * @returns {Promise<{ sourceOperationId: number, destinationOperationId: number, appId: number }>} A promise resolving with the operation ids and the cloned staging app's id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the operation ids and the cloned staging app's id.
  * @example
  * ```
  * {
@@ -144,46 +132,38 @@ export function cloneStagingApp(
  * }
  * ```
  */
-export function cloneStagingAppToOtherServer(
+export async function cloneStagingAppToOtherServer(
   serverId: number,
   appId: number,
   destinationServerId: number
-): Promise<{
-  sourceOperationId: number;
-  destinationOperationId: number;
-  appId: number;
-}> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     destination_server_id: destinationServerId,
   };
-  return apiCall("/staging/app/cloneToOtherServer", HttpMethod.POST, data).then(
-    (response) => ({
-      sourceOperationId: response.source_operation_id,
-      destinationOperationId: response.destination_operation_id,
-      appId: response.app_id,
-    })
-  );
+  const req = await apiCall("/staging/app/cloneToOtherServer", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.destination_operation_id);
 }
 
 /**
  * Start the process of removing an app.
  * @param {number} serverId Numeric id of the server.
  * @param {number} appId Numeric id of the application.
- * @returns {Promise<number>} A promise resolving with the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the operation id.
  * @example
  * ```
  * 12345
  * ```
  */
-export function startRemoveAppProcess(
+export async function DeleteApp(
   serverId: number,
   appId: number
-): Promise<number> {
-  return apiCall(`/app/${appId}`, HttpMethod.DELETE, {
+): Promise<OperationStatus> {
+  const req = await apiCall(`/app/${appId}`, HttpMethod.DELETE, {
     server_id: serverId,
-  }).then((response) => response.operation_id);
+  });
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**

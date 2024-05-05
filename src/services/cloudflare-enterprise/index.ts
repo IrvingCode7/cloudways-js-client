@@ -1,5 +1,7 @@
 import { apiCall } from "../core";
 import { HttpMethod } from "../core/types";
+import { getAndWaitForOperationStatusCompleted } from "../operation";
+import type { OperationStatus } from "../operation/types";
 import type {
   cloudflareDetailsResponse,
   setupCloudflareResponse,
@@ -136,27 +138,26 @@ export function fetchTxtRecords(
  * @param {number} appId - The ID of the application.
  * @param {string[]} domains - An array of domains to be deleted.
  * @param {number} customerId - The ID of the customer.
- * @returns {Promise<{ operation_id: number }>} A promise that resolves to an object containing the operation ID.
+ * @returns {Promise<OperationStatus>} A promise that resolves to an object containing the operation ID.
  * @example
  * {
   "operation_id": 12345
 }
  */
-export function deleteDomain(
+export async function deleteDomain(
   serverId: number,
   appId: number,
   domains: string[],
   customerId: number
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     domains: domains,
     customer_id: customerId,
   };
-  return apiCall("/app/cloudflareCdn/delete", HttpMethod.POST, data).then(
-    (response) => ({ operation_id: response.operation_id })
-  );
+  const req = await apiCall("/app/cloudflareCdn/delete", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -166,19 +167,19 @@ export function deleteDomain(
  * @param {string[]} domains - An array of domains to be transferred.
  * @param {number} dest_server_id - The ID of the destination server.
  * @param {number} dest_app_id - The ID of the destination application.
- * @returns {Promise<{ operation_id: number }>} A promise that resolves to an object containing the operation ID.
+ * @returns {Promise<OperationStatus>} A promise that resolves to an object containing the operation ID.
  * @example
  * {
   "operation_id": 12345
 }
  */
-export function transferDomain(
+export async function transferDomain(
   serverId: number,
   appId: number,
   domains: string[],
   dest_server_id: number,
   dest_app_id: number
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus>{
   const data = {
     server_id: serverId,
     app_id: appId,
@@ -186,11 +187,12 @@ export function transferDomain(
     dest_server_id: dest_server_id,
     est_app_id: dest_app_id,
   };
-  return apiCall(
+  const req = await apiCall(
     "/app/cloudflareCdn/transferDomain",
     HttpMethod.POST,
     data
-  ).then((response) => ({ operation_id: response.operation_id }));
+  );
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -198,25 +200,24 @@ export function transferDomain(
  * @param {number} serverId - The ID of the server where the application is hosted.
  * @param {number} appId - The ID of the application.
  * @param {number} customerId - The ID of the customer.
- * @returns {Promise<{ operation_id: number }>} A promise that resolves to an object containing the operation ID.
+ * @returns {Promise<OperationStatus>} A promise that resolves to an object containing the operation ID.
  * @example
  * {
   "operation_id": 12345
 }
  */
-export function purgeDomain(
+export async function purgeDomain(
   serverId: number,
   appId: number,
   customerId: number
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     customer_id: customerId,
   };
-  return apiCall("/app/cloudflareCdn/purgeDomain", HttpMethod.POST, data).then(
-    (response) => ({ operation_id: response.operation_id })
-  );
+  const req = await apiCall("/app/cloudflareCdn/purgeDomain", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -319,27 +320,23 @@ export function getSmartCachePurgeStatus(
  * Configures Smart Cache Purge for a specific application on a server.
  * @param {number} serverId - The ID of the server where the application is hosted.
  * @param {number} appId - The ID of the application.
- * @returns {Promise<{ status: boolean, operation_id: number }>} A promise that resolves to an object containing the status of the configuration and the operation ID.
+ * @returns {Promise<OperationStatus>} A promise that resolves to an object containing the status of the configuration and the operation ID.
  * @example
  * {
       "status": true,
       "operation_id": 106318
     } 
  */
-export function configureSmartCachePurge(
+export async function configureSmartCachePurge(
   serverId: number,
   appId: number
-): Promise<{ status: boolean; operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
   };
-  return apiCall("/app/cloudflareCdn/deployFPC", HttpMethod.POST, data).then(
-    (response) => ({
-      status: response.status,
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/cloudflareCdn/deployFPC", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -395,14 +392,14 @@ export function getClouflareSettings(
  * @param {boolean} minification - Specifies whether minification is enabled.
  * @param {boolean} mobile_optimization - Specifies whether mobile optimization is enabled.
  * @param {boolean} scrapeshield - Specifies whether scrapeshield is enabled.
- * @returns {Promise<{status: boolean, operation_id: number}>} A promise that resolves to the status and operation ID of the update operation.
+ * @returns {Promise<OperationStatus>} A promise that resolves to the status and operation ID of the update operation.
  * @example
  * {  
           "status": true,
           "operation_id": 12345    
           } 
  */
-export function updateCloudflareSettings(
+export async function updateCloudflareSettings(
   serverId: number,
   appId: number,
   caching: boolean,
@@ -412,7 +409,7 @@ export function updateCloudflareSettings(
   minification: boolean,
   mobile_optimization: boolean,
   scrapeshield: boolean
-): Promise<{ status: boolean; operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
@@ -424,12 +421,8 @@ export function updateCloudflareSettings(
     mobile_optimization: mobile_optimization,
     scrapeshield: scrapeshield,
   };
-  return apiCall("/app/cloudflareCdn/appSetting", HttpMethod.POST, data).then(
-    (response) => ({
-      status: response.status,
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/cloudflareCdn/appSetting", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**

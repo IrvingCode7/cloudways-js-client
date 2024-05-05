@@ -1,12 +1,15 @@
 import { apiCall } from "../core";
 import type { DiskUsageResponse, Server } from "./types";
 import { HttpMethod } from "../core/types";
+import { getAndWaitForOperationStatusCompleted } from "../operation";
+import type { OperationStatus } from "../operation/types";
+
 
 /**
  * Attaches block storage to a server.
  * @param {number} serverId The numeric id of the server.
  * @param {number} storageSize The size of the block storage to attach.
- * @returns {Promise<number>} A promise resolving with an object containing the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with an object containing the operation id.
  * @example
  * ```
  *
@@ -14,17 +17,16 @@ import { HttpMethod } from "../core/types";
  *
  * ```
  */
-export function attachBlockStorage(
+export async function attachBlockStorage(
   serverId: number,
   storageSize: number
-): Promise<number> {
+): Promise<OperationStatus> {
   const requestData = {
     server_id: serverId,
     server_storage: storageSize,
   };
-  return apiCall("/server/attachStorage", HttpMethod.POST, requestData).then(
-    (response) => response.operation_id
-  );
+  const req = await apiCall("/server/attachStorage", HttpMethod.POST, requestData);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -46,7 +48,7 @@ export function attachBlockStorage(
  * @param {boolean} appSettings Whether to copy each application's general, php-fpm, varnish, and git configuration settings.
  * @param {boolean} appCredentials Whether to copy the application credentials of each application(s) from the source server to the new server (if exist).
  * @param {boolean} teamAccess Whether to copy the team access settings to the new server.
- * @returns {Promise< number >} A promise resolving with an object containing the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with an object containing the operation id.
  * @example
  * ```
  *
@@ -54,7 +56,7 @@ export function attachBlockStorage(
  *
  * ```
  */
-export function cloneServer(
+export async function cloneServer(
   sourceServerId: number,
   cloud: string,
   region: string,
@@ -72,7 +74,7 @@ export function cloneServer(
   appSettings: boolean,
   appCredentials: boolean,
   teamAccess: boolean
-): Promise<number> {
+): Promise<OperationStatus> {
   const requestData = {
     source_server_id: sourceServerId,
     cloud: cloud,
@@ -92,9 +94,8 @@ export function cloneServer(
     app_credentials: appCredentials,
     team_access: teamAccess,
   };
-  return apiCall("/server/cloneServer", HttpMethod.POST, requestData).then(
-    (response) => response.operation_id
-  );
+  const req = await apiCall("/server/cloneServer", HttpMethod.POST, requestData);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -182,7 +183,7 @@ export function createServer(
 /**
  * Starts the process to remove a server.
  * @param {number} serverId Numeric id of the server to be removed.
- * @returns {Promise<number>} A promise resolving with the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the operation id.
  * @example
  * ```
  *
@@ -190,16 +191,15 @@ export function createServer(
  *
  * ```
  */
-export function deleteServer(serverId: number): Promise<number> {
-  return apiCall(`/server/${serverId}`, HttpMethod.DELETE).then(
-    (response) => response.operation_id
-  );
+export async function deleteServer(serverId: number): Promise<OperationStatus>{
+  const req = await apiCall(`/server/${serverId}`, HttpMethod.DELETE);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
  * Initiates a fetch disk usage operation for a server.
  * @param {number} serverId Numeric id of the server.
- * @returns {Promise<DiskUsageResponse>} A promise resolving with the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the operation id.
  * @example
  * ```
  * {
@@ -208,8 +208,9 @@ export function deleteServer(serverId: number): Promise<number> {
  * }
  * ```
  */
-export function getDiskUsage(serverId: number): Promise<DiskUsageResponse> {
-  return apiCall(`/server/${serverId}/diskUsage`);
+export async function getDiskUsage(serverId: number): Promise<OperationStatus> {
+  const req = await apiCall(`/server/${serverId}/diskUsage`);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -279,7 +280,7 @@ export function getServersList(): Promise<Server[]> {
 /**
  * Restarts the server.
  * @param {number} serverId Numeric id of the server to be restarted.
- * @returns {Promise<number>} A promise resolving with the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the operation id.
  * @example
  * ```
  *
@@ -287,10 +288,11 @@ export function getServersList(): Promise<Server[]> {
  *
  * ```
  */
-export function restartServer(serverId: number): Promise<number> {
-  return apiCall("/server/restart", HttpMethod.POST, {
+export async function restartServer(serverId: number): Promise<OperationStatus>  {
+  const req = await apiCall("/server/restart", HttpMethod.POST, {
     server_id: serverId,
-  }).then((response) => response.operation_id);
+  });
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -305,14 +307,15 @@ export function restartServer(serverId: number): Promise<number> {
  *
  * ```
  */
-export function scaleBlockStorage(
+export async function scaleBlockStorage(
   serverId: number,
   storageSize: number
-): Promise<number> {
-  return apiCall("/server/scaleStorage", HttpMethod.POST, {
+): Promise<OperationStatus> {
+  const req = await apiCall("/server/scaleStorage", HttpMethod.POST, {
     server_id: serverId,
     server_storage: storageSize,
-  }).then((response) => response.operation_id);
+  });
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -320,7 +323,7 @@ export function scaleBlockStorage(
  * @param {number} serverId Numeric id of the server.
  * @param {number} volumeSize New volume size.
  * @param {string} volumeType Volume type.
- * @returns {Promise<number>} A promise resolving with the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the operation id.
  * @example
  * ```
  *
@@ -328,22 +331,23 @@ export function scaleBlockStorage(
  *
  * ```
  */
-export function scaleVolumeSize(
+export async function scaleVolumeSize(
   serverId: number,
   volumeSize: number,
   volumeType: string
-): Promise<number> {
-  return apiCall("/server/scaleVolume", HttpMethod.POST, {
+): Promise<OperationStatus> {
+  const req = await apiCall("/server/scaleVolume", HttpMethod.POST, {
     server_id: serverId,
     volume_size: volumeSize,
     volume_type: volumeType,
-  }).then((response) => response.operation_id);
+  });
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
  * Starts the server.
  * @param {number} serverId Numeric id of the server.
- * @returns {Promise<number>} A promise resolving with the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the operation id.
  * @example
  * ```
  *
@@ -351,16 +355,18 @@ export function scaleVolumeSize(
  *
  * ```
  */
-export function startServer(serverId: number): Promise<number> {
-  return apiCall("/server/start", HttpMethod.POST, {
+export async function startServer(serverId: number): Promise<OperationStatus> {
+  const req = await apiCall("/server/start", HttpMethod.POST, {
     server_id: serverId,
-  }).then((response) => response.operation_id);
+  });
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
+
 }
 
 /**
  * Stops the server.
  * @param {number} serverId Numeric id of the server.
- * @returns {Promise<number>} A promise resolving with the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the operation id.
  * @example
  * ```
  *
@@ -368,10 +374,11 @@ export function startServer(serverId: number): Promise<number> {
  *
  * ```
  */
-export function stopServer(serverId: number): Promise<number> {
-  return apiCall("/server/stop", HttpMethod.POST, { server_id: serverId }).then(
+export async function stopServer(serverId: number): Promise<OperationStatus>  {
+  const req = await apiCall("/server/stop", HttpMethod.POST, { server_id: serverId }).then(
     (response) => response.operation_id
   );
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -397,7 +404,7 @@ export function updateServerLabel(
  * Upgrade server instance type.
  * @param {number} serverId Numeric id of the server.
  * @param {string} instanceType New instance type (e.g., "512MB", "Small").
- * @returns {Promise< number >} A promise resolving with the operation id.
+ * @returns {Promise<OperationStatus>} A promise resolving with the operation id.
  * @example
  * ```
  *
@@ -405,12 +412,14 @@ export function updateServerLabel(
  *
  * ```
  */
-export function upgradeServer(
+export async function upgradeServer(
   serverId: number,
   instanceType: string
-): Promise<number> {
-  return apiCall(`/server/scaleServer`, HttpMethod.POST, {
+): Promise<OperationStatus> {
+  const req = await apiCall(`/server/scaleServer`, HttpMethod.POST, {
     server_id: serverId,
     instance_type: instanceType,
-  }).then((response) => response.operation_id);
+  });
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
+
 }

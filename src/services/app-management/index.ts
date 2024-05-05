@@ -1,5 +1,7 @@
 import { apiCall } from "../core";
 import { HttpMethod } from "../core/types";
+import { getAndWaitForOperationStatusCompleted } from "../operation";
+import type { OperationStatus } from "../operation/types";
 import type {
   AppBackupStatusResponse,
   AppCredentialsResponse,
@@ -39,7 +41,7 @@ export function changeAppAccessState(
  * Retrieve the backup status of an application.
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
- * @returns {Promise<AppBackupStatusResponse>} - Promise resolving to an object containing the backup status.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the backup status.
  * The backup status object includes a boolean indicating the status and an operation ID
  * And it could sometimes return additional properties
  * @example
@@ -50,21 +52,16 @@ export function changeAppAccessState(
  * Operation polling will return backup_dates (An array of restore points available for  the app)
  * and local_backup_exists (a local backup created before restorinig the app)
  */
-export function getAppBackupStatus(
+export async function getAppBackupStatus(
   serverId: number,
   appId: number
-): Promise<AppBackupStatusResponse> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
   };
-  return apiCall("/app/manage/backup", HttpMethod.GET, data).then(
-    (response) => ({
-      status: response.status,
-      operation_id: response.operation_id,
-      ...response, // Handle unknown properties
-    })
-  );
+  const req = await apiCall("/app/manage/backup", HttpMethod.GET, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -122,52 +119,46 @@ export function deleteAppCredential(
  * Delete CNAME records associated with an application.
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
- * @returns {Promise<{ operation_id: number }>} - Promise resolving to an object containing the operation ID.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the operation ID.
  * The operation ID indicates the status of the delete operation.
  * @example
  * {
  *   "operation_id": 123456
  * }
  */
-export function deleteCname(
+export async function deleteCname(
   serverId: number,
   appId: number
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
   };
-  return apiCall("/app/manage/cname", HttpMethod.DELETE, data).then(
-    (response) => ({
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/manage/cname", HttpMethod.DELETE, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
  * Delete a local backup associated with an application.
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
- * @returns {Promise<{ operation_id: number }>} - Promise resolving to an object containing the operation ID.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the operation ID.
  * The operation ID indicates the status of the delete operation.
  * @example
  * {
  *   "operation_id": 123456
  * }
  */
-export function deleteLocalBackup(
+export async function deleteLocalBackup(
   serverId: number,
   appId: number
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus>  {
   const data = {
     server_id: serverId,
     app_id: appId,
   };
-  return apiCall("/app/manage/backup", HttpMethod.DELETE, data).then(
-    (response) => ({
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/manage/backup", HttpMethod.DELETE, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -381,79 +372,70 @@ export function resetFilePermissions(
  * @param {number} appId - The numeric ID of the application.
  * @param {string} time - The time to which the application will be restored.
  * @param {string} type - The type of restoration to perform.
- * @returns {Promise<{ operation_id: number }>} - Promise resolving to an object containing the operation ID of the restoration process.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the operation ID of the restoration process.
  * @example
  * {
  *   operation_id: 123456
  * }
  */
-export function restoreApp(
+export async function restoreApp(
   serverId: number,
   appId: number,
   time: string,
   type: string
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     time: time,
     type: type,
   };
-  return apiCall("/app/manage/restore", HttpMethod.POST, data).then(
-    (response) => ({
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/manage/restore", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
  * Rollback last restore action
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
- * @returns {Promise<{ operation_id: number }>} - Promise resolving to an object containing the operation ID of the rollback process.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the operation ID of the rollback process.
  * @example
  * {
  *   operation_id: 123456
  * }
  */
-export function rollbackRestore(
+export async function rollbackRestore(
   serverId: number,
   appId: number
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
   };
-  return apiCall("/app/manage/rollback", HttpMethod.POST, data).then(
-    (response) => ({
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/manage/rollback", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
  * Initiate a backup process for the specified application on the server.
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
- * @returns {Promise<{ operation_id: number }>} - Promise resolving to an object containing the operation ID of the backup process.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the operation ID of the backup process.
  * @example
  * {
  *   operation_id: 123456
  * }
  */
-export function aplicationBackup(
+export async function aplicationBackup(
   serverId: number,
   appId: number
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
   };
-  return apiCall("/app/manage/takeBackup", HttpMethod.POST, data).then(
-    (response) => ({
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/manage/takeBackup", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -481,23 +463,21 @@ export function updateAppAlias(
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
  * @param {string} cname - The new CNAME to set for the application.
- * @returns {Promise<{ operation_id: number }>} - Promise resolving to an object containing the operation ID.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the operation ID.
  */
-export function updateAppCname(
+export async function updateAppCname(
   serverId: number,
   appId: number,
   cname: string
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus>  {
   const data = {
     server_id: serverId,
     app_id: appId,
     cname: cname,
   };
-  return apiCall("/app/manage/cname", HttpMethod.POST, data).then(
-    (response) => ({
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/manage/cname", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
+
 }
 
 /**
@@ -639,23 +619,20 @@ export function updateSymlink(
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
  * @param {string} vcl_list - The Varnish configuration settings.
- * @returns {Promise<{ operation_id: number }>} - Promise resolving to an object containing the operation ID.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the operation ID.
  */
-export function updateVarnishSettings(
+export async function updateVarnishSettings(
   serverId: number,
   appId: number,
   vcl_list: string
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     vcl_list: vcl_list,
   };
-  return apiCall("/app/manage/varnish_setting", HttpMethod.POST, data).then(
-    (response) => ({
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/manage/varnish_setting", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -683,24 +660,20 @@ export function updateWebroot(
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
  * @param {string} corsHeaders - The new CORS headers to be set.
- * @returns {Promise<{ status: boolean; operation_id: number }>} - Promise resolving to an object indicating the status of the operation and the operation ID.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object indicating the status of the operation and the operation ID.
  */
-export function updateCorsHeaders(
+export async function updateCorsHeaders(
   serverId: number,
   appId: number,
   corsHeaders: string
-): Promise<{ status: boolean; operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     corsHeaders: corsHeaders,
   };
-  return apiCall("/app/cors_header", HttpMethod.POST, data).then(
-    (response) => ({
-      status: response.status,
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/cors_header", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -708,7 +681,7 @@ export function updateCorsHeaders(
  * @param {number} serverId - El ID numérico del servidor.
  * @param {number} appId - El ID numérico de la aplicación.
  * @param {string} status - El estado de la redirección WebP. Los valores posibles son "enable" o "disable".
- * @returns {Promise<{ response: { operation_id: number } }>} - Promesa que resuelve en un objeto con la propiedad "response" que contiene el ID de operación.
+ * @returns {Promise<OperationStatus>} - Promesa que resuelve en un objeto con la propiedad "response" que contiene el ID de operación.
  * @example
  * {
  *   "response": {
@@ -716,21 +689,18 @@ export function updateCorsHeaders(
  *   }
  * }
  */
-export function getAplicacionWebPRedirectionStatus(
+export async function getAplicacionWebPRedirectionStatus(
   serverId: number,
   appId: number,
   status: string
-): Promise<{ response: { operation_id: number } }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     status: status,
   };
-  return apiCall("/app/manage/webP", HttpMethod.GET, data).then((response) => ({
-    response: {
-      operation_id: response.response.operation_id,
-    },
-  }));
+  const req = await apiCall("/app/manage/webP", HttpMethod.GET, data);
+  return await getAndWaitForOperationStatusCompleted(req.response.operation_id);
 }
 
 /**
@@ -738,29 +708,25 @@ export function getAplicacionWebPRedirectionStatus(
  * @param {number} serverId - El ID numérico del servidor.
  * @param {number} appId - El ID numérico de la aplicación.
  * @param {string} status - El estado de la redirección forzada de HTTPS. Los valores posibles son "enable" o "disable".
- * @returns {Promise<{ status: boolean; operation_id: number }>} - Promesa que resuelve en un objeto con las propiedades "status" y "operation_id".
+ * @returns {Promise<OperationStatus>} - Promesa que resuelve en un objeto con las propiedades "status" y "operation_id".
  * @example
  * {
  *   "status": true,
  *   "operation_id": 12345
  * }
  */
-export function enforceHTTPS(
+export async function enforceHTTPS(
   serverId: number,
   appId: number,
   status: string
-): Promise<{ status: boolean; operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     status: status,
   };
-  return apiCall("/app/manage/enforce_https", HttpMethod.POST, data).then(
-    (response) => ({
-      status: response.status,
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/manage/enforce_https", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -857,29 +823,25 @@ export function updateAppXMLRCPheaderStatus(
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
  * @param {string} status - The status to set for device detection. Possible values are "enable" or "disable".
- * @returns {Promise<{ status: boolean; operation_id: number }>} - Promise resolving to an object containing the status of the operation.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the status of the operation.
  * @example
  * {
   "status" : true,
   "operation_id" : 12345
 }
  */
-export function updateDeviceDetentionStatus(
+export async function updateDeviceDetentionStatus(
   serverId: number,
   appId: number,
   status: string
-): Promise<{ status: boolean; operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     status: status,
   };
-  return apiCall("/app/device/detection", HttpMethod.GET, data).then(
-    (response) => ({
-      status: response.status,
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/device/detection", HttpMethod.GET, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -887,29 +849,25 @@ export function updateDeviceDetentionStatus(
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
  * @param {string} status - The status to set for ignoring query strings. Possible values are "enable" or "disable".
- * @returns {Promise<{ status: boolean; operation_id: number }>} - Promise resolving to an object containing the status of the operation.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the status of the operation.
  * @example
  * {
   "status" : true,
   "operation_id" : 12345
 }
  */
-export function updateIgnoreQueryStringStatus(
+export async function updateIgnoreQueryStringStatus(
   serverId: number,
   appId: number,
   status: string
-): Promise<{ status: boolean; operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     status: status,
   };
-  return apiCall("/app/ignore/query_string", HttpMethod.GET, data).then(
-    (response) => ({
-      status: response.status,
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/ignore/query_string", HttpMethod.GET, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -917,29 +875,25 @@ export function updateIgnoreQueryStringStatus(
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
  * @param {string} status - The status to set for direct PHP execution. Possible values are "enable" or "disable".
- * @returns {Promise<{ status: boolean; operation_id: number }>} - Promise resolving to an object containing the status of the operation.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the status of the operation.
  * @example
  * {
   "status" : true,
   "operation_id" : 12345
 }
  */
-export function updateDirectPHPExecutionStatus(
+export async function updateDirectPHPExecutionStatus(
   serverId: number,
   appId: number,
   status: string
-): Promise<{ status: boolean; operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     status: status,
   };
-  return apiCall("/app/manage/php_direct_execution", HttpMethod.GET, data).then(
-    (response) => ({
-      status: response.status,
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/manage/php_direct_execution", HttpMethod.GET, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -947,29 +901,25 @@ export function updateDirectPHPExecutionStatus(
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
  * @param {string} status - The status to set for the cron optimizer. Possible values are "enable" or "disable".
- * @returns {Promise<{ status: boolean; operation_id: number }>} - Promise resolving to an object containing the status of the operation.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the status of the operation.
  * @example
  * {
   "status" : true,
   "operation_id" : 12345
 }
  */
-export function updateCronOptimizerStatus(
+export async function updateCronOptimizerStatus(
   serverId: number,
   appId: number,
   status: string
-): Promise<{ status: boolean; operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     status: status,
   };
-  return apiCall("/app/manage/cron_setting", HttpMethod.GET, data).then(
-    (response) => ({
-      status: response.status,
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/manage/cron_setting", HttpMethod.GET, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -977,27 +927,23 @@ export function updateCronOptimizerStatus(
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
  * @param {string} password - The new password for the application admin.
- * @returns {Promise<{ response: { operation_id: number } }>} - Promise resolving to an object containing the operation ID.
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object containing the operation ID.
  * @example
  * {"response" : { operation_id: 18591 }}
  */
-export function updateAppAdminPassword(
+export async function updateAppAdminPassword(
   serverId: number,
   appId: number,
   password: string
-): Promise<{ response: { operation_id: number } }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
     password: password,
   };
-  return apiCall(
-    "/app/creds/changeAdminCredentials",
-    HttpMethod.POST,
-    data
-  ).then((response) => ({
-    response: { operation_id: response.response.operation_id },
-  }));
+  const req = await apiCall("/app/creds/changeAdminCredentials",HttpMethod.POST,data);
+  return await getAndWaitForOperationStatusCompleted(req.response.operation_id);
+
 }
 
 

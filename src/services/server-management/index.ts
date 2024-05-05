@@ -3,27 +3,27 @@ import { HttpMethod } from "../core/types";
 import type { getServerSettingsResponse,
     getDiskCleanupResponse
  } from "./types";
+ import { getAndWaitForOperationStatusCompleted } from "../operation";
+ import type { OperationStatus } from "../operation/types";
+
 
 /**
  * Initiates a backup for the specified server.
  * @param {number} serverId - The numeric ID of the server.
- * @returns {Promise<{ operation_id: number }>} A Promise that resolves to an object containing the operation ID.
+ * @returns {Promise<OperationStatus> } A Promise that resolves to an object containing the operation ID.
  * @example
  * {
   "operation_id" : 12345
 }
  */
-export function backupServer(
+export async function backupServer(
   serverId: number
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
   };
-  return apiCall("/server/manage/backup", HttpMethod.POST, data).then(
-    (response) => ({
-      operation_id: response.operation_id,
-    })
-  );
+ const req = await apiCall("/server/manage/backup", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -245,27 +245,24 @@ export function updateMasterUsername(
  * @param {number} serverId - Numeric id of the server.
  * @param {string} package_name - Name of the package to be updated.
  * @param {string} package_version - New version of the package.
- * @returns {Promise<{ operation_id: number }>} - Promise containing the operation id.
+ * @returns {Promise<OperationStatus>} - Promise containing the operation id.
  * @example
  * {
   "operation_id" : 12345
 }
  */
-export function updateServerPackage(
+export async function updateServerPackage(
     serverId: number,
     package_name : string,
     package_version : string 
-): Promise<{ operation_id : number}> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     package_name : package_name,
     package_version : package_version
   };
-  return apiCall("/server/manage/package",HttpMethod.POST,data).then(
-    (response) => ({
-        operation_id : response.operation_id
-    })
-  )
+  const req = await apiCall("/server/manage/package",HttpMethod.POST,data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 
@@ -409,21 +406,21 @@ export function updateDiskCleanupSettings(
  * @param {string} rotate_system_log - Setting to rotate system logs.
  * @param {string} rotate_app_log - Setting to rotate app logs.
  * @param {string} remove_app_local_backup - Setting to remove local app backups.
- * @returns {Promise<{ status: boolean, operation_id: number }>} - Promise resolving with status and operation id.
+ * @returns {Promise<OperationStatus>} - Promise resolving with status and operation id.
  * @example
  * {
   "status": true,
   "operation_id": 3
 }
  */
-export function optimizeServerDisk(
+export async function optimizeServerDisk(
     serverId : number,
     remove_app_tmp : string,
     remove_app_private_html : string,
     rotate_system_log : string,
     rotate_app_log : string,
     remove_app_local_backup : string
-):Promise<{ status : boolean , operation_id : number}>{
+):Promise<OperationStatus>{
     const data = {
         server_id : serverId,
         remove_app_tmp : remove_app_tmp,
@@ -432,10 +429,6 @@ export function optimizeServerDisk(
         rotate_app_log : rotate_app_log,
         remove_app_local_backup : remove_app_local_backup
     };
-    return apiCall("/server/disk/cleanup", HttpMethod.POST, data).then(
-        (response) => ({
-            status : response.status,
-            operation_id : response.operation_id
-        })
-    );
+    const req = await apiCall("/server/disk/cleanup", HttpMethod.POST, data);
+    return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }

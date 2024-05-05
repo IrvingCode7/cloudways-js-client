@@ -1,5 +1,7 @@
 import { apiCall } from "../core";
 import { HttpMethod } from "../core/types";
+import { getAndWaitForOperationStatusCompleted } from "../operation";
+import type { OperationStatus } from "../operation/types";
 import type {
   BotProtectionTrafficResponse,
   BotProtectionTrafficSummaryResponse,
@@ -251,25 +253,22 @@ export function BotProtectionWhiteListedBots(
  * Activates bot protection for a specific server and application.
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
- * @returns {Promise<{ operation_id: number }>} A Promise that resolves with the operation ID upon successful activation.
+ * @returns {Promise<OperationStatus>} A Promise that resolves with the operation ID upon successful activation.
  * @example
  * {
   "operation_id": 12345
 }
  */
-export function BotProtectionActivation(
+export async function BotProtectionActivation(
   serverId: number,
   appId: number
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus>{
   const data = {
     server_id: serverId,
     app_id: appId,
   };
-  return apiCall("/app/malcare/enable", HttpMethod.PUT, data).then(
-    (response) => ({
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/malcare/enable", HttpMethod.PUT, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 
@@ -277,25 +276,22 @@ export function BotProtectionActivation(
  * Deactivates bot protection for a specific server and application.
  * @param {number} serverId - The numeric ID of the server.
  * @param {number} appId - The numeric ID of the application.
- * @returns {Promise<{ operation_id: number }>} A Promise that resolves with the operation ID upon successful deactivation.
+ * @returns {Promise<OperationStatus>} A Promise that resolves with the operation ID upon successful deactivation.
  * @example
  * {
   "operation_id": 12345
 }
  */
-export function BotProtectionDeactivation(
+export async function BotProtectionDeactivation(
   serverId: number,
   appId: number
-): Promise<{ operation_id: number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
   };
-  return apiCall("/app/malcare/disable", HttpMethod.PUT, data).then(
-    (response) => ({
-      operation_id: response.operation_id,
-    })
-  );
+  const req = await apiCall("/app/malcare/disable", HttpMethod.PUT, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 /**
@@ -371,27 +367,23 @@ export function BotProtectionBadBotsWhitelisting(
  * 
  * @param {number} serverId - The numeric id of the server.
  * @param {number} appId - The numeric id of the application.
- * @returns {Promise<{ status: boolean, operation_id: number }>} A promise that resolves to an object containing the status and operation id of the cache purge operation.
+ * @returns {Promise<OperationStatus>} A promise that resolves to an object containing the status and operation id of the cache purge operation.
  * @example
  * {
   "status": true,
   "operation_id": 12345
 }
  */
-export function ClearAppCache(
+export async function ClearAppCache(
   serverId: number,
   appId: number
-): Promise<{ status : boolean, operation_id : number }> {
+): Promise<OperationStatus> {
   const data = {
     server_id: serverId,
     app_id: appId,
   };
-  return apiCall("/app/cache/purge", HttpMethod.POST, data).then(
-    (response) => ({
-      status : response.status,
-      operation_id : response.operation_id
-    })
-  );
+  const req = await apiCall("/app/cache/purge", HttpMethod.POST, data);
+  return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
 
