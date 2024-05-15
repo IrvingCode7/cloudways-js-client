@@ -677,11 +677,11 @@ export async function updateCorsHeaders(
 }
 
 /**
- * Obtener el estado de redirección WebP de la aplicación.
- * @param {number} serverId - El ID numérico del servidor.
- * @param {number} appId - El ID numérico de la aplicación.
- * @param {string} status - El estado de la redirección WebP. Los valores posibles son "enable" o "disable".
- * @returns {Promise<OperationStatus>} - Promesa que resuelve en un objeto con la propiedad "response" que contiene el ID de operación.
+ * Get the WebP redirection status for the application.
+ * @param {number} serverId - The numeric ID of the server.
+ * @param {number} appId - The numeric ID of the application.
+ * @param {string} status - The WebP redirection status. Possible values are "enable" or "disable".
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object with the "response" property containing the operation ID.
  * @example
  * {
  *   "response": {
@@ -704,11 +704,11 @@ export async function getAplicacionWebPRedirectionStatus(
 }
 
 /**
- * Habilitar o deshabilitar la redirección forzada de HTTPS.
- * @param {number} serverId - El ID numérico del servidor.
- * @param {number} appId - El ID numérico de la aplicación.
- * @param {string} status - El estado de la redirección forzada de HTTPS. Los valores posibles son "enable" o "disable".
- * @returns {Promise<OperationStatus>} - Promesa que resuelve en un objeto con las propiedades "status" y "operation_id".
+ * Enable or disable forced HTTPS redirection.
+ * @param {number} serverId - The numeric ID of the server.
+ * @param {number} appId - The numeric ID of the application.
+ * @param {string} status - The status of forced HTTPS redirection. Possible values are "enable" or "disable".
+ * @returns {Promise<OperationStatus>} - Promise resolving to an object with the "status" and "operation_id" properties.
  * @example
  * {
  *   "status": true,

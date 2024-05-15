@@ -633,7 +633,7 @@ export async function updateCloudflareSettings(
         ]
     }
  */
-export function getClouflareCacheAnalytics(
+export function getCloudflareCacheAnalytics(
   serverId: number,
   appId: number,
   mins: number
