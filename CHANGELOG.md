@@ -1,5 +1,11 @@
 # cloudways-js-client
 
+## 0.0.47
+
+### Patch Changes
+
+- af965ae: create a way to get operation Id status with data
+
 ## 0.0.46
 
 ### Patch Changes
