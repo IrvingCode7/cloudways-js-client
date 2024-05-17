@@ -368,7 +368,7 @@ export async function configureSmartCachePurge(
      }    
    }
  */
-export function getClouflareSettings(
+export function getCloudflareSettings(
   serverId: number,
   appId: number
 ): Promise<getcloudflareSettingsResponse> {

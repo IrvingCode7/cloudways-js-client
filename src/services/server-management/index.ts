@@ -265,7 +265,34 @@ export async function updateServerPackage(
   return await getAndWaitForOperationStatusCompleted(req.operation_id);
 }
 
-
+/**
+ * Updates the server settings.
+ * @param {number} serverId - Numeric ID of the server.
+ * @param {number} execution_limit - Maximum execution time for scripts.
+ * @param {number} memory_limit - Maximum amount of memory a script may consume.
+ * @param {string} date_timezone - Default timezone for date functions.
+ * @param {string} display_errors - Determines whether errors should be printed to the screen.
+ * @param {number} upload_size - Maximum allowed size for uploaded files.
+ * @param {string} error_reporting - Level of error reporting.
+ * @param {string} mysql_timezone - Timezone for MySQL.
+ * @param {number} static_cache_expiry - Time-to-live for static cache.
+ * @param {string} character_set_server - Default character set for the server.
+ * @param {number} max_connections - Maximum number of simultaneous connections to the server.
+ * @param {number} max_input_vars - Maximum number of input variables.
+ * @param {number} max_input_time - Maximum time in seconds a script is allowed to parse input data.
+ * @param {string} tls_version - TLS versions to be enabled.
+ * @param {string} mod_zendguard - Status of Zend Guard Loader.
+ * @param {number} innodb_buffer_pool_size - Buffer pool size for InnoDB.
+ * @param {number} innodb_lock_wait_timeout - Timeout in seconds for InnoDB lock waits.
+ * @param {number} wait_timeout - Timeout in seconds for server waits.
+ * @param {number} opcache_memory_size - Memory size for OPCache.
+ * @param {string} mod_xdebug - Status of Xdebug extension.
+ * @param {string} nginx_http2 - Status of HTTP/2 in Nginx.
+ * @param {string} new_default_app - New default application.
+ * @param {string} sys_locale - System locale settings.
+ * @param {string} varnish_default_ttl - Default time-to-live for Varnish cache.
+ * @returns {Promise<void>} - Promise indicating the success of the operation.
+ */
 export function updateServerSettings(
     serverId: number,
     execution_limit : number,
